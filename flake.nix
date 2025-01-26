@@ -17,14 +17,12 @@
     home-manager,
   } @ inputs: let
     system = "aarch64-darwin";
-    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs = import nixpkgs { inherit system; };
   in {
 
     homeConfigurations = {
       myHomeConfig = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = system;
-        };
+        pkgs = pkgs;
         extraSpecialArgs = {
           inherit inputs;
         };
@@ -34,22 +32,14 @@
       };
     };
 
-    packages.${system}.my-packages = pkgs.buildEnv {
-      name = "my-packages-list";
-      paths = with pkgs; [
-        git
-        curl
-      ];
-    };
-
     apps.${system}.update = {
       type = "app";
       program = toString (pkgs.writeShellScript "update-script" ''
         set -e
         echo "Updating flake..."
         nix flake update
-        echo "Updating profile..."
-        nix profile upgrade my-packages
+        echo "Updating home-manager..."
+        nix run "nixpkgs#home-manager" -- switch --flake ".#myHomeConfig"
         echo "Update complete!"
       '');
     };
