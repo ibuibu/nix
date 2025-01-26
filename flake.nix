@@ -37,7 +37,7 @@
           inherit inputs;
         };
         modules = [
-          ./home.nix
+          ./home/darwin/default.nix
         ];
       };
 
