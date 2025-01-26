@@ -17,9 +17,7 @@
     home-manager,
   } @ inputs: let
     system = "aarch64-darwin";
-    pkgs = nixpkgs.legacyPackages.${system}.extend (
-      neovim-nightly-overlay.overlays.default
-    );
+    pkgs = nixpkgs.legacyPackages.${system};
   in {
 
     homeConfigurations = {
@@ -41,8 +39,6 @@
       paths = with pkgs; [
         git
         curl
-        gh
-        neovim
       ];
     };
 
