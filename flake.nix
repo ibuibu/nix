@@ -27,9 +27,8 @@
       ubuntu = "x86_64-linux";
     };
 
-    pkgsFor = system: import nixpkgs { inherit system; };
+    pkgsFor = system: import nixpkgs {inherit system;};
   in {
-
     homeConfigurations = {
       # macOS用のHome Manager設定
       macos = home-manager.lib.homeManagerConfiguration {
@@ -56,41 +55,28 @@
 
     darwinConfigurations.MacBookProM2 = nix-darwin.lib.darwinSystem {
       system = systems.darwin;
-      modules = [ ./darwin/default.nix ];
+      modules = [./darwin/default.nix];
     };
 
-    apps = {
-      ${systems.darwin}.update = {
-        type = "app";
-        program = pkgsFor systems.darwin.writeShellScript "update-script" ''
-          set -e
-          echo "Updating flake..."
-          nix flake update
-          echo "Updating home-manager..."
-          nix run "nixpkgs#home-manager" -- switch --flake ".#macos"
-          echo "Updating nix-darwin..."
-          nix run nix-darwin -- switch --flake ".#MacBookProM2"
-          echo "Update complete!"
-        '';
-      };
-
-      ${systems.ubuntu}.update = {
-        type = "app";
-        program = pkgsFor systems.ubuntu.writeShellScript "update-script" ''
-          set -e
-          echo "Updating flake..."
-          nix flake update
-          echo "Updating home-manager..."
-          nix run "nixpkgs#home-manager" -- switch --flake ".#ubuntu"
-          echo "Update complete!"
-        '';
-      };
+    apps.aarch64-darwin.update = {
+      type = "app";
+      program = toString (nixpkgs.legacyPackages.aarch64-darwin.writeShellScript "update-script" ''
+        set -e
+        echo "Updating flake..."
+        nix flake update
+        echo "Updating home-manager..."
+        nix run "nixpkgs#home-manager" -- switch --flake ".#macos"
+        echo "Updating nix-darwin..."
+        nix run nix-darwin -- switch --flake ".#MacBookProM2"
+        echo "Update complete!"
+      '');
     };
 
-    formatter = {
-      "${systems.darwin}" = pkgsFor systems.darwin.alejandra;
-      "${systems.ubuntu}" = pkgsFor systems.ubuntu.alejandra;
-    };
+    formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.alejandra;
+
+    # formatter = {
+    #   "${systems.darwin}" = pkgsFor systems.darwin.alejandra;
+    #   "${systems.ubuntu}" = pkgsFor systems.ubuntu.alejandra;
+    # };
   };
 }
-
