@@ -46,7 +46,7 @@
           inherit inputs;
         };
         modules = [
-          ./linux/linux.nix
+          ./linux/default.nix
         ];
       };
     };
