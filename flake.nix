@@ -24,13 +24,12 @@
   } @ inputs: let
     systems = {
       darwin = "aarch64-darwin";
-      ubuntu = "x86_64-linux";
+      linux = "x86_64-linux";
     };
 
     pkgsFor = system: import nixpkgs {inherit system;};
   in {
     homeConfigurations = {
-      # macOS用のHome Manager設定
       macos = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgsFor systems.darwin;
         extraSpecialArgs = {
@@ -41,14 +40,13 @@
         ];
       };
 
-      # Ubuntu用のHome Manager設定
-      ubuntu = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsFor systems.ubuntu;
+      linux = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsFor systems.linux;
         extraSpecialArgs = {
           inherit inputs;
         };
         modules = [
-          ./config/ubuntu.nix
+          ./linux/linux.nix
         ];
       };
     };
