@@ -1,5 +1,5 @@
 {
-  description = "Minimal package definition for aarch64-darwin";
+  description = "Minimal package definition for aarch64-darwin and x86_64-linux";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
@@ -10,9 +10,9 @@
     };
 
     nix-darwin = {
-     url = "github:LnL7/nix-darwin";
-     inputs.nixpkgs.follows = "nixpkgs";
-   };
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -22,41 +22,59 @@
     home-manager,
     nix-darwin,
   } @ inputs: let
-    system = "aarch64-darwin";
-    pkgs = import nixpkgs { inherit system; };
-  in {
+    systems = {
+      darwin = "aarch64-darwin";
+      linux = "x86_64-linux";
+    };
 
+    pkgsFor = system: import nixpkgs {inherit system;};
+  in {
     homeConfigurations = {
-      myHomeConfig = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgs;
+      macos = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsFor systems.darwin;
         extraSpecialArgs = {
           inherit inputs;
         };
         modules = [
-          ./home.nix
+          ./home/darwin/default.nix
+        ];
+      };
+
+      linux = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsFor systems.linux;
+        extraSpecialArgs = {
+          inherit inputs;
+        };
+        modules = [
+          ./home/linux/default.nix
         ];
       };
     };
 
     darwinConfigurations.MacBookProM2 = nix-darwin.lib.darwinSystem {
-     system = system;
-     modules = [ ./darwin/default.nix ];
+      system = systems.darwin;
+      modules = [./darwin/default.nix];
     };
 
-    apps.${system}.update = {
+    apps.aarch64-darwin.update = {
       type = "app";
-      program = toString (pkgs.writeShellScript "update-script" ''
+      program = toString (nixpkgs.legacyPackages.aarch64-darwin.writeShellScript "update-script" ''
         set -e
         echo "Updating flake..."
         nix flake update
         echo "Updating home-manager..."
-        nix run "nixpkgs#home-manager" -- switch --flake ".#myHomeConfig"
+        nix run "nixpkgs#home-manager" -- switch --flake ".#macos"
         echo "Updating nix-darwin..."
         nix run nix-darwin -- switch --flake ".#MacBookProM2"
         echo "Update complete!"
       '');
     };
 
-    formatter.aarch64-darwin = pkgs.alejandra;
+    formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.alejandra;
+
+    # formatter = {
+    #   "${systems.darwin}" = pkgsFor systems.darwin.alejandra;
+    #   "${systems.ubuntu}" = pkgsFor systems.ubuntu.alejandra;
+    # };
   };
 }

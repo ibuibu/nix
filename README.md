@@ -1,18 +1,18 @@
 # nix
 
-###
+## Update
 
 ```shell
 nix run ".#update"
 ```
 
-### format
+## format
 
 ```shell
 nix fmt <nix-file>
 ```
 
-### 世代の確認
+## check generation
 
 ```shell
 nix run "nixpkgs#home-manager" -- generations
