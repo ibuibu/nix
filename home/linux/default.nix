@@ -17,6 +17,10 @@ in {
 
     packages = with pkgs; [
       gh
+      ghq
+      lazygit
+      ripgrep
+      bat
       neovim # nighly
     ];
 
