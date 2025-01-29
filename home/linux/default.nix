@@ -11,6 +11,10 @@ in {
     };
   };
 
+  imports = [
+    ./shell
+  ];
+
   home = {
     username = username;
     homeDirectory = "/home/${username}";
