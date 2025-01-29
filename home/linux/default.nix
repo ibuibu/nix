@@ -21,6 +21,7 @@ in {
       lazygit
       ripgrep
       bat
+      fzf
       neovim # nighly
     ];
 
