@@ -26,6 +26,7 @@ in {
       ripgrep
       bat
       fzf
+      exa
       neovim # nighly
     ];
 
