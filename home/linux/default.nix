@@ -13,6 +13,7 @@ in {
 
   imports = [
     ./shell
+    ./mise
   ];
 
   home = {
@@ -25,8 +26,9 @@ in {
       lazygit
       ripgrep
       bat
+      eza
       fzf
-      exa
+      vscode
       neovim # nighly
     ];
 
