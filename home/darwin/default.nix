@@ -17,6 +17,7 @@ in {
 
     packages = with pkgs; [
       gh
+      chezmoi
       neovim # nighly
     ];
 

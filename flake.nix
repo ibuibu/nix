@@ -53,7 +53,7 @@
 
     darwinConfigurations.MacBookProM2 = nix-darwin.lib.darwinSystem {
       system = systems.darwin;
-      modules = [./darwin/default.nix];
+      modules = [./nix-darwin/default.nix];
     };
 
     apps.aarch64-darwin.update = {
