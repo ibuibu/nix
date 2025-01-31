@@ -1,0 +1,6 @@
+**/.DS_Store
+home/
+nix-darwin
+flake.lock
+flake.nix
+README.md
