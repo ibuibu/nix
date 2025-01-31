@@ -16,6 +16,7 @@ in {
   };
 
   imports = [
+    ../common
     ./shell
     ./mise
   ];
@@ -25,14 +26,6 @@ in {
     homeDirectory = "/home/${username}";
 
     packages = with pkgs; [
-      gh
-      ghq
-      lazygit
-      ripgrep
-      bat
-      eza
-      fzf
-      vscode
       neovim # nighly
     ];
 

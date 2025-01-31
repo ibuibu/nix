@@ -15,13 +15,15 @@ in {
     };
   };
 
+  imports = [
+    ../common
+  ];
+
   home = {
     username = username;
     homeDirectory = "/Users/${username}";
 
     packages = with pkgs; [
-      gh
-      chezmoi
       neovim # nighly
     ];
 
