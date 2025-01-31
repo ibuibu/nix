@@ -26,6 +26,7 @@ in {
     homeDirectory = "/home/${username}";
 
     packages = with pkgs; [
+      xclip
       neovim # nighly
     ];
 
