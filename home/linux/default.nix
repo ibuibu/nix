@@ -1,4 +1,8 @@
-{inputs, pkgs, ...}: let
+{
+  inputs,
+  pkgs,
+  ...
+}: let
   username = "ibuibu";
 in {
   nixpkgs = {
@@ -38,4 +42,3 @@ in {
 
   programs.home-manager.enable = true;
 }
-
