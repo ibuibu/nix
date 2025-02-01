@@ -4,6 +4,9 @@
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    initExtra = ''
+      source <(fzf --zsh)
+    '';
     shellAliases = {
       cat = "bat";
       grep = "rg";
