@@ -19,6 +19,7 @@ in {
     ../common
     ./shell
     ./mise
+    ./tmux
   ];
 
   home = {

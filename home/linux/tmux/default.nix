@@ -17,12 +17,13 @@
 
       bind Space copy-mode
       bind C-Space copy-mode
+      set-option -g mouse on
+      bind -T copy-mode MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "xclip -selection clipboard"
 
       bind e setw synchronize-panes on
       bind E setw synchronize-panes off
 
       #set-option -g status-position top
-      # status lineの設定
       set-option -g status-interval 1
       set-option -g status-justify "centre"
       set-option -g status-bg "colour238"
