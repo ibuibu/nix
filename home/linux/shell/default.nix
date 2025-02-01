@@ -6,6 +6,7 @@
     syntaxHighlighting.enable = true;
     initExtra = ''
       source <(fzf --zsh)
+      PATH=$HOME/.command:$PATH
     '';
     shellAliases = {
       cat = "bat";

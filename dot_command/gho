@@ -1,0 +1,4 @@
+#!/bin/bash
+
+url=$(git config --get remote.origin.url | sed -e 's/github.com:/github.com\//' -e 's/^git@/https:\/\//g' -e 's/^ssh/https/')
+open "${url}"
