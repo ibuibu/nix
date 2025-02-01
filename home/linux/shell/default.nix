@@ -7,6 +7,24 @@
     initExtra = ''
       source <(fzf --zsh)
       PATH=$HOME/.command:$PATH
+      function gc() {
+        branches=$(git branch --all --format="%(refname:short)%09%(authordate:relative)%09%(authorname)" | grep -v HEAD | grep -v origin)
+        branch=$(echo "$branches" | column -ts "$(printf '\t')" | fzf)
+        git checkout $(echo "$branch" | awk '{print $1}' )
+      }
+
+      function gs() {
+        p=$(ghq list | cut -d "/" -f 2,3 | sort | fzf)
+        if [ -n "$p" ]; then
+          cd $(ghq root)/github.com/$p
+        fi
+      }
+
+      function gr() {
+        pushd $(ghq root)/github.com/$(ghq list | cut -d "/" -f 2,3 | sort | fzf)
+        gho
+        popd
+      }
     '';
     shellAliases = {
       cat = "bat";
