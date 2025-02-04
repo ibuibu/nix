@@ -28,6 +28,7 @@ in {
 
     packages = with pkgs; [
       xclip
+      pass
       neovim # nighly
     ];
 
