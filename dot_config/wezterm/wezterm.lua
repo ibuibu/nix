@@ -57,7 +57,7 @@ for i = 1, 8 do
 	table.insert(config.keys, {
 		key = tostring(i),
 		mods = "LEADER",
-		action = act.MoveTab(i - 1),
+		action = act.ActivateTab(i - 1),
 	})
 end
 
