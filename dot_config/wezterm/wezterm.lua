@@ -51,6 +51,12 @@ config.keys = {
 		mods = "LEADER",
 		action = act.SpawnTab("CurrentPaneDomain"),
 	},
+	{ key = "q", mods = "LEADER", action = wezterm.action.QuickSelect },
+	{
+		key = "Space",
+		mods = "LEADER",
+		action = wezterm.action.ActivateCopyMode,
+	},
 }
 
 for i = 1, 8 do
