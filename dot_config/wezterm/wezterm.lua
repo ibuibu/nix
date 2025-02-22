@@ -12,6 +12,16 @@ config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 2000 }
 local act = wezterm.action
 config.keys = {
 	{
+		key = "C",
+		mods = "SUPER",
+		action = wezterm.action.CopyTo("Clipboard"),
+	},
+	{
+		key = "V",
+		mods = "SUPER",
+		action = wezterm.action.PasteFrom("Clipboard"),
+	},
+	{
 		key = "\\",
 		mods = "LEADER",
 		action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
