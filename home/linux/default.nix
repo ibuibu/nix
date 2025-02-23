@@ -17,6 +17,7 @@ in {
 
   imports = [
     ../common
+    ./git
     ./shell
     ./mise
     ./tmux

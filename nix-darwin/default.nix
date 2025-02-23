@@ -6,7 +6,7 @@
       max-jobs = 8;
     };
   };
-  services.nix-daemon.enable = true;
+  nix.enable = true;
 
   system = {
     stateVersion = 5;
