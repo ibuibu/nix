@@ -9,7 +9,6 @@
       bat
       eza
       fzf
-      vscode
       chezmoi
     ];
   };
