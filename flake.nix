@@ -56,18 +56,32 @@
       modules = [./nix-darwin/default.nix];
     };
 
-    apps.aarch64-darwin.update = {
-      type = "app";
-      program = toString (nixpkgs.legacyPackages.aarch64-darwin.writeShellScript "update-script" ''
-        set -e
-        echo "Updating flake..."
-        nix flake update
-        echo "Updating home-manager..."
-        nix run "nixpkgs#home-manager" -- switch --flake ".#macos"
-        echo "Updating nix-darwin..."
-        nix run nix-darwin -- switch --flake ".#MacBookProM2"
-        echo "Update complete!"
-      '');
+    apps = {
+      aarch64-darwin.update = {
+        type = "app";
+        program = toString (nixpkgs.legacyPackages.aarch64-darwin.writeShellScript "update-script" ''
+          set -e
+          echo "Updating flake..."
+          nix flake update
+          echo "Updating home-manager..."
+          nix run "nixpkgs#home-manager" -- switch --flake ".#macos"
+          echo "Updating nix-darwin..."
+          nix run nix-darwin -- switch --flake ".#MacBookProM2"
+          echo "Update complete!"
+        '');
+      };
+
+      x86_64-linux.update = {
+        type = "app";
+        program = toString (nixpkgs.legacyPackages.x86_64-linux.writeShellScript "update-script" ''
+          set -e
+          echo "Updating flake..."
+          nix flake update
+          echo "Updating home-manager..."
+          nix run "nixpkgs#home-manager" -- switch --flake ".#linux"
+          echo "Update complete!"
+        '');
+      };
     };
 
     formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.alejandra;
