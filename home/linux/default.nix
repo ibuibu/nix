@@ -32,6 +32,8 @@ in {
       xclip
       pass
       neovim # nighly
+      nerd-fonts.jetbrains-mono
+      noto-fonts-cjk-sans
     ];
 
     # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
