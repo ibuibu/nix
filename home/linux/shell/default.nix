@@ -4,6 +4,12 @@
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    envExtra = ''
+      # Load Nix profile if it exists
+      if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then
+        source ~/.nix-profile/etc/profile.d/nix.sh
+      fi
+    '';
     initExtra = ''
       source <(fzf --zsh)
       PATH=$HOME/.command:$PATH

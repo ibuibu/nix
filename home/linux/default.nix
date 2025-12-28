@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: let
-  username = "ibuibu";
+  username = "ibuib";
 in {
   nixpkgs = {
     overlays = [
