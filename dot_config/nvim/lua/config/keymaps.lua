@@ -16,7 +16,3 @@ map("n", "<C-k>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", "<C-q>", function()
   Snacks.bufdelete()
 end, { desc = "Delete Buffer" })
-
-vim.keymap.set("n", "<leader>fw", function()
-  require("telescope.builtin").grep_string({ search = vim.fn.expand("<cword>") })
-end, { desc = "Search word under cursor with Telescope" })
