@@ -10,6 +10,7 @@
       eza
       fzf
       chezmoi
+      jq
     ];
   };
 }
