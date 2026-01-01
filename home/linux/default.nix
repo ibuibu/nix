@@ -34,6 +34,7 @@ in {
       neovim # nighly
       nerd-fonts.jetbrains-mono
       noto-fonts-cjk-sans
+      postgresql
     ];
 
     # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
