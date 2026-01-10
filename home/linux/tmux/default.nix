@@ -18,7 +18,9 @@
       bind Space copy-mode
       bind C-Space copy-mode
       set-option -g mouse on
-      bind -T copy-mode MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "xclip -selection clipboard"
+      bind -T copy-mode MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "cat >> /tmp/tmux-copy.txt"
+      bind -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "cat >> /tmp/tmux-copy.txt"
+
 
       bind e setw synchronize-panes on
       bind E setw synchronize-panes off
