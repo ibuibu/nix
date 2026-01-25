@@ -42,4 +42,12 @@ in {
   };
 
   programs.home-manager.enable = true;
+
+  services.gpg-agent = {
+    enable = true;
+    enableSshSupport = true;
+    defaultCacheTtl = 86400;  # 24時間 (秒単位)
+    maxCacheTtl = 86400;      # 24時間 (秒単位)
+    pinentry.package = pkgs.pinentry-tty;
+  };
 }

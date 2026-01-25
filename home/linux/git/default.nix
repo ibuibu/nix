@@ -1,7 +1,7 @@
 { ... } : {
   programs.git = {
     enable = true;
-    extraConfig = {
+    settings = {
       core = {
         editor = "nvim";
       };
@@ -14,6 +14,16 @@
       user = {
         name = "ibuibu";
         email = "ibuibu69@gmail.com";
+        signingkey = "~/.ssh/id_ed25519.pub";
+      };
+      gpg = {
+        format = "ssh";
+      };
+      commit = {
+        gpgsign = true;
+      };
+      tag = {
+        gpgsign = true;
       };
     };
     ignores = [
