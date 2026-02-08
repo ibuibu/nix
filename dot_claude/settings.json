@@ -1,0 +1,26 @@
+{
+  "env": {
+    "ANTHROPIC_MODEL": "claude-opus-4-6"
+  },
+  "permissions": {
+    "allow": [
+      "Bash:gh pr diff",
+      "Bash:gh pr view",
+      "Bash:gh pr checks",
+      "Bash:gh workflow view",
+      "Bash:gh run view",
+      "Bash:cargo clippy",
+      "Bash:cargo check",
+      "Bash:cargo build",
+      "Bash:cargo test",
+      "Bash:cargo nextest",
+      "Bash:cargo run",
+      "Bash:npx tsc --noemit",
+      "Bash:npm run lint",
+      "Read:*"
+    ]
+  },
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": true
+  }
+}
