@@ -53,6 +53,7 @@
       gcb = "git checkout -b";
       gpl = "git pull";
 
+      cc = "claude";
       lg = "lazygit";
       ghv = "gh pr view --web";
 
