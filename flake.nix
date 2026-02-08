@@ -49,6 +49,16 @@
           ./home/linux/default.nix
         ];
       };
+
+      wsl = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsFor systems.linux;
+        extraSpecialArgs = {
+          inherit inputs;
+        };
+        modules = [
+          ./home/wsl/default.nix
+        ];
+      };
     };
 
     darwinConfigurations.MacBookProM2 = nix-darwin.lib.darwinSystem {
@@ -78,7 +88,11 @@
           echo "Updating flake..."
           nix flake update
           echo "Updating home-manager..."
-          nix run "nixpkgs#home-manager" -- switch --flake ".#linux"
+          if grep -qi microsoft /proc/version 2>/dev/null; then
+            nix run "nixpkgs#home-manager" -- switch --flake ".#wsl"
+          else
+            nix run "nixpkgs#home-manager" -- switch --flake ".#linux"
+          fi
           echo "Update complete!"
         '');
       };

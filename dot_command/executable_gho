@@ -1,4 +1,15 @@
 #!/bin/bash
 
-url=$(git config --get remote.origin.url | sed -e 's/github.com:/github.com\//' -e 's/^git@/https:\/\//g' -e 's/^ssh/https/')
-open "${url}"
+url=$(git config --get remote.origin.url | sed -e 's|^git@github.com:|https://github.com/|' -e 's|^ssh://git@github.com/|https://github.com/|' -e 's|\.git$||')
+
+# Detect OS and use appropriate open command
+if [[ -n "$WSL_DISTRO_NAME" ]] || grep -qi microsoft /proc/version 2>/dev/null; then
+    # WSL environment - use Windows PowerShell
+    powershell.exe start "${url}"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS
+    open "${url}"
+else
+    # Linux
+    xdg-open "${url}" 2>/dev/null || echo "Could not open URL: ${url}"
+fi

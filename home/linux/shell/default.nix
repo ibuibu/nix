@@ -4,11 +4,18 @@
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    envExtra = ''
+      # Load Nix profile if it exists
+      if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then
+        source ~/.nix-profile/etc/profile.d/nix.sh
+      fi
+    '';
     initExtra = ''
       source <(fzf --zsh)
       PATH=$HOME/.command:$PATH
+      PATH=$HOME/.local/bin:$PATH
       function gc() {
-        branches=$(git branch --all --format="%(refname:short)%09%(authordate:relative)%09%(authorname)" | grep -v HEAD | grep -v origin)
+        branches=$(git branch --all --sort=-authordate --format="%(refname:short)%09%(authordate:relative)%09%(authorname)" | grep -v HEAD | grep -v origin)
         branch=$(echo "$branches" | column -ts "$(printf '\t')" | fzf)
         git checkout $(echo "$branch" | awk '{print $1}' )
       }
