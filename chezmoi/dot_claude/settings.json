@@ -27,7 +27,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if grep -qi microsoft /proc/version 2>/dev/null; then powershell.exe '[System.Media.SystemSounds]::Asterisk.Play()'; elif [ \"$(uname)\" = \"Darwin\" ]; then afplay /System/Library/Sounds/Hero.aiff; fi"
+            "command": "if grep -qi microsoft /proc/version 2>/dev/null; then powershell.exe '(New-Object System.Media.SoundPlayer \"$env:windir\\Media\\tada.wav\").PlaySync()'; elif [ \"$(uname)\" = \"Darwin\" ]; then afplay /System/Library/Sounds/Hero.aiff; fi"
           }
         ]
       }
