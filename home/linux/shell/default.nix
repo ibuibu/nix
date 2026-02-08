@@ -27,6 +27,13 @@
         fi
       }
 
+      function ws() {
+        local selected=$(gwq list --json | jq -r '.[] | "\(.branch)\t\(.path)"' | fzf --with-nth=1 --delimiter='\t')
+        if [ -n "$selected" ]; then
+          cd "$(echo "$selected" | cut -f2)"
+        fi
+      }
+
       function gr() {
         pushd $(ghq root)/github.com/$(ghq list | cut -d "/" -f 2,3 | sort | fzf)
         gho
