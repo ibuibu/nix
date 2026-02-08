@@ -18,8 +18,11 @@ home/
   wsl/                    # WSL 固有 (linuxを継承 + 上書き)
     tmux/                 #   tmux (clip.exeでWindowsクリップボードにコピー)
 nix-darwin/               # nix-darwin システム設定
-dot_command/              # カスタムコマンド (chezmoi管理)
-dot_config/               # アプリ設定 (nvim, wezterm / chezmoi管理)
+chezmoi/                  # chezmoi管理のdotfiles
+  dot_claude/             #   Claude Code (CLAUDE.md, settings.json, commands/)
+  dot_command/            #   カスタムコマンド (gho等)
+  dot_config/             #   アプリ設定 (nvim)
+  dot_copilot/            #   Copilot設定
 ```
 
 ### homeConfigurations
