@@ -54,10 +54,11 @@ dotfiles の管理に chezmoi を使用。
 chezmoi init --apply ibuibu/nix
 
 # よく使うコマンド
-chezmoi managed     # 管理対象のファイル一覧
-chezmoi add <file>  # ファイルを追加
-chezmoi apply       # 変更を適用
-chezmoi diff        # 差分を確認
+chezmoi managed      # 管理対象のファイル一覧
+chezmoi add <file>   # ファイルを追加
+chezmoi re-add       # 変更済みファイルをリポジトリに反映
+chezmoi apply        # 変更を適用
+chezmoi diff         # 差分を確認
 ```
 
 ## その他のコマンド
