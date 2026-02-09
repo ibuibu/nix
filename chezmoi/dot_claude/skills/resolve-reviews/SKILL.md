@@ -15,13 +15,18 @@ gh pr view --json number,url
 でPR番号を取得。リポジトリのowner/nameは`gh repo view --json owner,name`で取得。
 
 ### 2. 未解決レビュースレッドの取得
-GraphQL APIで`isResolved: false`のスレッドを取得：
+GraphQL APIでページネーションを使い、**全スレッド**を取得する。
+1ページ目：
 ```bash
 gh api graphql -f query='
 {
   repository(owner: "OWNER", name: "REPO") {
     pullRequest(number: NUMBER) {
       reviewThreads(first: 50) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         nodes {
           id
           isResolved
@@ -39,6 +44,36 @@ gh api graphql -f query='
 }'
 ```
 
+`hasNextPage`が`true`の場合、`after`引数に`endCursor`の値を渡して次ページを取得する：
+```bash
+gh api graphql -f query='
+{
+  repository(owner: "OWNER", name: "REPO") {
+    pullRequest(number: NUMBER) {
+      reviewThreads(first: 50, after: "CURSOR") {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        nodes {
+          id
+          isResolved
+          comments(first: 1) {
+            nodes {
+              body
+              path
+              line
+            }
+          }
+        }
+      }
+    }
+  }
+}'
+```
+
+`hasNextPage`が`false`になるまで繰り返し、全ページの結果から`isResolved: false`のスレッドだけを抽出する。
+
 ### 3. 各レビューの処理（すべてresolveされるまで繰り返し）
 
 各未解決レビューについて：
@@ -52,8 +87,12 @@ gh api graphql -f query='
    - 技術的な観点から対応すべきか判断
    - 対応する場合の実装方針も提示
 
-3. **ユーザーに確認**
-   - 「対応する？それとも〇〇の理由でresolve？」のように聞く
+3. **ユーザーに確認（AskUserQuestion toolを使う）**
+   - 必ずAskUserQuestion toolで選択肢を提示する
+   - 選択肢の例：
+     - 「対応する」（コード修正して対応）
+     - 「〇〇の理由でresolve」（対応不要としてresolve）
+   - headerはレビューの要点を短く（例: "CORS設定", "エラー処理"）
 
 4. **ユーザーの判断に応じて実行**
 
