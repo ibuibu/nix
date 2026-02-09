@@ -10,6 +10,7 @@
 - markdownファイルに出力するときはtmpフォルダではなくrepositoryに出力して。
 - コンテンツ検索は必ずGrepツールを使って。Bashの`grep -r`コマンドは絶対に使わないで。
 - 推測で答えない。必ずコードを確認してから回答する。
+
 ### git
 
 - コミットメッセージはConventional Commits形式（`feat:`, `fix:`, `docs:`, `refactor:`, `chore:` 等）で、日本語で書く。
