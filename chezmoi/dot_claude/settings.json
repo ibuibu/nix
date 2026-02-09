@@ -17,6 +17,7 @@
       "Bash:cargo run",
       "Bash:npx tsc --noemit",
       "Bash:npm run lint",
+      "Bash:ls",
       "Read:*"
     ]
   },
