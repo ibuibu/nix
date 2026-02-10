@@ -24,7 +24,8 @@
       "Bash:git show",
       "Bash:cd",
       "Read:*",
-      "Search:*"
+      "Search:*",
+      "Grep:*"
     ]
   },
   "hooks": {
