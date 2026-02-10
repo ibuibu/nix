@@ -18,7 +18,13 @@
       "Bash:npx tsc --noemit",
       "Bash:npm run lint",
       "Bash:ls",
-      "Read:*"
+      "Bash:wc",
+      "Bash:git branch --show-current",
+      "Bash:git branch -a",
+      "Bash:git show",
+      "Bash:cd",
+      "Read:*",
+      "Search:*"
     ]
   },
   "hooks": {
