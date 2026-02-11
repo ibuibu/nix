@@ -211,28 +211,6 @@
       end run' -- "$*"
     }
 
-    # Create GitHub repo and open in VSCode
-    function ghcr() {
-      gh repo create --private $argv
-      ghq get $argv[1]
-      code $(ghq list --full-path -e $argv[1])
-    }
-
-    function ghcr2() {
-      current_dir=$(pwd | rev | cut -f 1 -d '/' | rev)
-      gh repo create --private "''${current_dir}"
-      if [ ! -e "./README.md" ]; then
-        echo "# ''${current_dir}" > README.md
-      fi
-      git init
-      git add .
-      git commit -m "first commit"
-      git branch -M main
-      git remote add origin git@github.com:ibuibu/"''${current_dir}".git
-      git push -u origin main
-      ghq get "''${current_dir}"
-    }
-
     # Convert aif to mp3
     function aiftomp3() {
       ffmpeg -i ''${1} -f mp3 -b:a 192k $(basename ''${1} .aif).mp3
