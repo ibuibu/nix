@@ -16,6 +16,7 @@
 - コミットメッセージはConventional Commits形式（`feat:`, `fix:`, `docs:`, `refactor:`, `chore:` 等）で、日本語で書く。
 - カレントディレクトリが既にリポジトリ内なら `git -C` は使わない。`git -C` を付けると settings local の allowed コマンド（プレフィックスマッチ）に合致しなくなるため。
 - コミット後など区切りがいいタイミングで、AskUserQuestion を使って push するかどうかをユーザーに尋ねる。
+- **push は勝手にしないこと**。必ず AskUserQuestion でユーザーに確認を取ってから実行する。
 
 ## 質問のフォーマット
 
