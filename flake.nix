@@ -99,10 +99,5 @@
     };
 
     formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.alejandra;
-
-    # formatter = {
-    #   "${systems.darwin}" = pkgsFor systems.darwin.alejandra;
-    #   "${systems.ubuntu}" = pkgsFor systems.ubuntu.alejandra;
-    # };
   };
 }

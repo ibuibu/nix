@@ -1,0 +1,69 @@
+# .zshrc.local
+# This file is for private configuration that should NOT be committed to git.
+# Copy this file to ~/.zshrc.local and customize it.
+
+# ============================================================================
+# SSH Keys
+# ============================================================================
+# Add your private SSH keys here
+# ssh-add -q ~/.ssh/key/your_private_key
+# ssh-add -q ~/.ssh/key/another_key.pem
+# ssh-add -q ~/.ssh/id_rsa
+
+# ============================================================================
+# Company/Project Specific Functions
+# ============================================================================
+
+# Example: GCP instance management
+# function hc3() {
+#   local PROJECT_ID
+#   if [ "$1" = "s" ]; then
+#     PROJECT_ID="your-staging-project-id"
+#   elif [ "$1" = "p" ]; then
+#     PROJECT_ID="your-production-project-id"
+#   else
+#     echo "Not implemented."
+#     return 1
+#   fi
+#   # ... rest of the function
+# }
+
+# Example: SSH to GCP instances
+# function gssh() {
+#   local PROJECT_ID
+#   if [ "$1" = "beta" ]; then
+#     PROJECT_ID="your-beta-project"
+#   elif [ "$1" = "stage" ]; then
+#     PROJECT_ID="your-stage-project"
+#   elif [ "$1" = "prod" ]; then
+#     PROJECT_ID="your-prod-project"
+#   else
+#     echo "Not implemented."
+#     return 1
+#   fi
+#   # ... rest of the function
+# }
+
+# ============================================================================
+# Zim Framework (if you use it)
+# ============================================================================
+# ZIM_HOME=${ZDOTDIR:-${HOME}}/.zim
+# if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
+#   if (( ${+commands[curl]} )); then
+#     curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+#         https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+#   else
+#     mkdir -p ${ZIM_HOME} && wget -nv -O ${ZIM_HOME}/zimfw.zsh \
+#         https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+#   fi
+# fi
+# if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZIM_CONFIG_FILE:-${ZDOTDIR:-${HOME}}/.zimrc} ]]; then
+#   source ${ZIM_HOME}/zimfw.zsh init
+# fi
+# source ${ZIM_HOME}/init.zsh
+
+# ============================================================================
+# Custom Environment Variables
+# ============================================================================
+# export YOUR_SECRET_TOKEN="xxx"
+# export YOUR_API_KEY="xxx"

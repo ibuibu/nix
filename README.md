@@ -48,6 +48,20 @@ curl -L https://nixos.org/nix/install | sh
 nix run ".#update"
 ```
 
+### プライベート設定（機密情報）
+
+SSH鍵やプロジェクト固有の設定など、Gitで管理したくない設定は `~/.zshrc.local` に記述します。
+
+```shell
+# サンプルファイルをコピー
+cp .zshrc.local.example ~/.zshrc.local
+
+# 編集して機密情報を追加
+nvim ~/.zshrc.local
+```
+
+`~/.zshrc.local` は Nix の zsh 設定から自動的に読み込まれます。
+
 ### chezmoi
 
 dotfiles の管理に chezmoi を使用。
