@@ -1,7 +1,7 @@
 ---
 description: GitHubのPRに対してレビューコメントを投稿するレビュアー用エージェント。gh pr viewでPR情報を取得し、変更内容を分析してレビューコメントを投稿する。
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: github-copilot/claude-sonnet-4.5
 temperature: 0.2
 tools:
   write: false
