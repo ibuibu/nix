@@ -124,4 +124,16 @@ gh api graphql -f query='mutation { resolveReviewThread(input: { threadId: "THRE
 ```
 
 ### 4. 完了処理
-すべてresolveされたら`git push`して完了。
+すべてresolveされたら`git push`する。
+
+### 5. 再レビュー依頼
+push完了後、レビュワーに再レビュー依頼を送るかユーザーにAskUserQuestion toolで確認する。
+
+「はい」の場合、PRのレビュワーを取得して再レビュー依頼を送る：
+```bash
+# レビュワー取得
+gh pr view --json reviewRequests,reviews
+
+# 再レビュー依頼
+gh pr edit --add-reviewer REVIEWER_LOGIN
+```
