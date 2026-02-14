@@ -13,6 +13,11 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    claude-code = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -21,6 +26,7 @@
     neovim-nightly-overlay,
     home-manager,
     nix-darwin,
+    claude-code,
   } @ inputs: let
     systems = {
       darwin = "aarch64-darwin";

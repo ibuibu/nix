@@ -1,5 +1,4 @@
-{ pkgs, ... }: {
-
+{pkgs, ...}: {
   home = {
     packages = with pkgs; [
       gh
@@ -11,6 +10,7 @@
       fzf
       chezmoi
       jq
+      claude-code
     ];
   };
 

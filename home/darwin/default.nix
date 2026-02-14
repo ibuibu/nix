@@ -6,6 +6,10 @@
   username = "hirokiibuka";
 in {
   nixpkgs = {
+    overlays = [
+      inputs.claude-code.overlays.default
+    ];
+
     config = {
       allowUnfree = true;
     };
