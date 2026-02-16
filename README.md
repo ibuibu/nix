@@ -20,6 +20,7 @@ home/
 nix-darwin/               # nix-darwin システム設定
 chezmoi/                  # chezmoi管理のdotfiles
   dot_claude/             #   Claude Code (CLAUDE.md, settings.json, commands/)
+  dot_codex/              #   Codex (AGENTS.md -> ~/.claude/CLAUDE.md へのsymlink)
   dot_command/            #   カスタムコマンド (gho等)
   dot_config/             #   アプリ設定 (nvim)
   dot_copilot/            #   Copilot設定

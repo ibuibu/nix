@@ -41,6 +41,7 @@ chezmoi apply
 `chezmoi/` 配下が chezmoi 管理の dotfiles。`dot_` プレフィックスが `.` に変換される：
 
 - `dot_claude/` → `~/.claude/`（Claude Code 設定）
+- `dot_codex/` → `~/.codex/`（`AGENTS.md` は `~/.claude/CLAUDE.md` への symlink）
 - `dot_config/nvim/` → `~/.config/nvim/`（LazyVim ベースの Neovim 設定）
 - `dot_command/` → `~/.command/`（カスタムスクリプト、PATH に追加済み）
 
