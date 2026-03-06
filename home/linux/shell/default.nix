@@ -59,6 +59,7 @@
       g = "git";
       gcb = "git checkout -b";
       gpl = "git pull";
+      gpsh = "git push";
 
       cc = "claude";
       lg = "lazygit";
