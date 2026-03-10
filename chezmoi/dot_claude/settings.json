@@ -39,9 +39,26 @@
           }
         ]
       }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if grep -qi microsoft /proc/version 2>/dev/null; then powershell.exe '(New-Object System.Media.SoundPlayer \"$env:windir\\Media\\notify.wav\").PlaySync()'; elif [ \"$(uname)\" = \"Darwin\" ]; then afplay /System/Library/Sounds/Ping.aiff; fi"
+          }
+        ]
+      }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "echo \"$(pwd)\""
   },
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true
-  }
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "effortLevel": "high"
 }
