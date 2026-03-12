@@ -15,6 +15,7 @@
 
 - コミットメッセージはConventional Commits形式（`feat:`, `fix:`, `docs:`, `refactor:`, `chore:` 等）で、日本語で書く。
 - カレントディレクトリが既にリポジトリ内なら `git -C` は使わない。`git -C` を付けると settings local の allowed コマンド（プレフィックスマッチ）に合致しなくなるため。
+- `git push` の前に、Rustコードは `cargo fmt`、TypeScriptコードは `npm run lint:fix`（または相当するnpm script）を実行する。
 
 
 ## PRレビュー
