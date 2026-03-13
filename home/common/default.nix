@@ -11,6 +11,7 @@
       chezmoi
       jq
       claude-code
+      glow
     ];
   };
 
