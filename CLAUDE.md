@@ -34,7 +34,13 @@ chezmoi apply
 
 継承関係: `wsl → linux → common`、`darwin → common`
 
-`nix-darwin/` は macOS のシステムレベル設定（Dock, Finder 等）。
+`nix-darwin/` は macOS のシステムレベル設定（Dock, Finder 等）。darwinConfigurations 名は `MacBookProM2`。
+
+### プラットフォーム別の注意
+
+- ユーザー名: macOS=`hirokiibuka`, Linux=`ibuibu`, WSL=`ibuib`（WSL は `lib.mkForce` で上書き）
+- Overlay: `neovim-nightly` は Linux/WSL のみ、`claude-code` は全プラットフォーム
+- クリップボード: macOS=`pbcopy`, Linux=`xclip`, WSL=`win32yank.exe`
 
 ### chezmoi 構成
 
