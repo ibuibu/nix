@@ -15,7 +15,7 @@
 
       set -sg escape-time 10
 
-      bind Space copy-mode
+      bind [ copy-mode
       bind C-Space copy-mode
       set-option -g mouse on
       bind -T copy-mode MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "xclip -selection clipboard"
@@ -55,8 +55,8 @@
       bind ^l select-pane -R
 
       bind c new-window -c '#{pane_current_path}'
-      bind '\' split-window -h -c '#{pane_current_path}'
-      bind ^'\' split-window -h -c '#{pane_current_path}'
+      bind \\ split-window -h -c '#{pane_current_path}'
+      bind C-\\ split-window -h -c '#{pane_current_path}'
       bind - split-window -v -c '#{pane_current_path}'
 
       bind -r H resize-pane -L 5
@@ -66,10 +66,14 @@
 
       set -g pane-border-style fg=White
       set -g pane-active-border-style "bg=default fg=Magenta"
+
+      set -g @plugin 'tmux-plugins/tpm'
+      set -g @plugin 'tmux-plugins/tmux-pain-control'
+      set -g @plugin 'tmux-plugins/tmux-yank'
+      set -g @plugin 'fcsonline/tmux-thumbs'
+      if-shell '[ ! -d ~/.tmux/plugins/tpm ]' 'run-shell "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"'
+      if-shell '[ -f ~/.tmux/plugins/tmux-thumbs/tmux-thumbs.tmux ]' 'run-shell ~/.tmux/plugins/tmux-thumbs/tmux-thumbs.tmux'
+      if-shell '[ -f ~/.tmux/plugins/tpm/tpm ]' 'run-shell ~/.tmux/plugins/tpm/tpm'
     '';
-    plugins = with pkgs; [
-      tmuxPlugins.pain-control
-      tmuxPlugins.yank
-    ];
   };
 }

@@ -34,4 +34,80 @@ in {
   };
 
   programs.home-manager.enable = true;
+
+  programs.tmux = {
+    enable = true;
+    aggressiveResize = true;
+    clock24 = true;
+    escapeTime = 0;
+    historyLimit = 100000;
+    keyMode = "vi";
+    prefix = "C-Space";
+    terminal = "tmux-256color";
+    shell = "${pkgs.zsh}/bin/zsh";
+    extraConfig = ''
+      set -g default-command "${pkgs.zsh}/bin/zsh"
+      set-option -ag terminal-overrides ',xterm-256color:RGB'
+
+      set -sg escape-time 10
+
+      bind [ copy-mode
+      bind C-Space copy-mode
+      set-option -g mouse on
+      bind -T copy-mode MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "pbcopy"
+      bind -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "pbcopy"
+
+      bind e setw synchronize-panes on
+      bind E setw synchronize-panes off
+
+      set-option -g status-interval 1
+      set-option -g status-justify "centre"
+      set-option -g status-bg "colour238"
+      set-option -g status-fg "colour255"
+      set-option -g status-left-length 20
+      set-option -g status-left "#[fg=colour255,bg=colour241]Session: #S #[default]"
+      set-window-option -g window-status-format " #I: #W "
+      set-window-option -g window-status-current-format "#[fg=colour255,bg=colour27,bold] #I: #W #[default]"
+      set-option -g status-right-length 60
+      set-option -g status-right "#[fg=colour255,bg=colour241] %m/%d %a %H:%M:%S#[default]"
+
+      set-option -g default-terminal screen-256color
+
+      setw -g window-active-style bg='#16171e'
+      setw -g window-style bg='#2B2D3A'
+
+      set -g mouse on
+      set -g terminal-overrides 'xterm*:smcup@:rmcup@'
+
+      bind h select-pane -L
+      bind j select-pane -D
+      bind k select-pane -U
+      bind l select-pane -R
+      bind ^h select-pane -L
+      bind ^j select-pane -D
+      bind ^k select-pane -U
+      bind ^l select-pane -R
+
+      bind c new-window -c '#{pane_current_path}'
+      bind \\ split-window -h -c '#{pane_current_path}'
+      bind C-\\ split-window -h -c '#{pane_current_path}'
+      bind - split-window -v -c '#{pane_current_path}'
+
+      bind -r H resize-pane -L 5
+      bind -r J resize-pane -D 5
+      bind -r K resize-pane -U 5
+      bind -r L resize-pane -R 5
+
+      set -g pane-border-style fg=White
+      set -g pane-active-border-style "bg=default fg=Magenta"
+
+      set -g @plugin 'tmux-plugins/tpm'
+      set -g @plugin 'tmux-plugins/tmux-pain-control'
+      set -g @plugin 'tmux-plugins/tmux-yank'
+      set -g @plugin 'fcsonline/tmux-thumbs'
+      if-shell '[ ! -d ~/.tmux/plugins/tpm ]' 'run-shell "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"'
+      if-shell '[ -f ~/.tmux/plugins/tmux-thumbs/tmux-thumbs.tmux ]' 'run-shell ~/.tmux/plugins/tmux-thumbs/tmux-thumbs.tmux'
+      if-shell '[ -f ~/.tmux/plugins/tpm/tpm ]' 'run-shell ~/.tmux/plugins/tpm/tpm'
+    '';
+  };
 }
