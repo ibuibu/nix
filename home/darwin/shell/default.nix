@@ -57,7 +57,16 @@
         bindkey "\e[4~" end-of-line
 
         # Options
+        # シェル終了時に履歴ファイルへ追記する（上書きしない）。
+        setopt APPEND_HISTORY
+        # コマンド実行ごとに履歴ファイルへ即時追記する。
+        setopt INC_APPEND_HISTORY
+        # 複数の zsh セッション間で履歴を共有する。
+        setopt SHARE_HISTORY
+        # 重複コマンドを整理して履歴をきれいに保つ。
         setopt HIST_IGNORE_ALL_DUPS
+        # 履歴保存前に余分な連続スペースを詰める。
+        setopt HIST_REDUCE_BLANKS
         setopt auto_pushd
         setopt pushd_ignore_dups
 
@@ -117,6 +126,9 @@
 
         # Load custom functions
         [ -f ~/.zsh/functions.zsh ] && source ~/.zsh/functions.zsh
+
+        # Backup history on shell startup
+        [ -f ~/.zsh_history ] && command -v histbk >/dev/null && histbk
 
         # Load local configuration (private, not in git)
         [ -f ~/.zshrc.local ] && source ~/.zshrc.local
@@ -214,6 +226,12 @@
     # Convert aif to mp3
     function aiftomp3() {
       ffmpeg -i ''${1} -f mp3 -b:a 192k $(basename ''${1} .aif).mp3
+    }
+
+    # Backup zsh history with timestamp
+    function histbk() {
+      mkdir -p ~/.history-backup
+      cp ~/.zsh_history ~/.history-backup/zsh_history_backup
     }
   '';
 }
