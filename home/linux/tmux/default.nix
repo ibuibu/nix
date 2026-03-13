@@ -26,6 +26,9 @@
       bind E setw synchronize-panes off
 
       #set-option -g status-position top
+      setw -g monitor-activity on
+      set -g visual-activity on
+
       set-option -g status-interval 1
       set-option -g status-justify "centre"
       set-option -g status-bg "colour238"
