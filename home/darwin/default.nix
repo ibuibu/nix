@@ -92,9 +92,6 @@ in {
       bind ^l select-pane -R
 
       bind c new-window -c '#{pane_current_path}'
-      bind \\ split-window -h -c '#{pane_current_path}'
-      bind C-\\ split-window -h -c '#{pane_current_path}'
-      bind - split-window -v -c '#{pane_current_path}'
 
       bind -r H resize-pane -L 5
       bind -r J resize-pane -D 5
@@ -111,6 +108,11 @@ in {
       if-shell '[ ! -d ~/.tmux/plugins/tpm ]' 'run-shell "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"'
       if-shell '[ -f ~/.tmux/plugins/tmux-thumbs/tmux-thumbs.tmux ]' 'run-shell ~/.tmux/plugins/tmux-thumbs/tmux-thumbs.tmux'
       if-shell '[ -f ~/.tmux/plugins/tpm/tpm ]' 'run-shell ~/.tmux/plugins/tpm/tpm'
+
+      unbind \\
+      bind \\ split-window -h -t . -c "#{pane_current_path}"
+      bind C-\\ split-window -h -t . -c "#{pane_current_path}"
+      bind - split-window -v -t . -c "#{pane_current_path}"
     '';
   };
 }
