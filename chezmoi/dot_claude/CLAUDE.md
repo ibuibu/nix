@@ -20,8 +20,40 @@
 
 ## PRレビュー
 
-- レビューコメントは1件ずつユーザーと相談し、必要だと判断された場合のみインラインでdraftコメントする。
+- レビューコメントは1件ずつユーザーと相談し、必要だと判断された場合のみコメント対象とする。
+- **相談フェーズ中はAPIを呼ばない**。承認されたコメントをメモリ上に溜めておく。
+- 全件の相談が終わったら、まとめて1回だけ pending review を POST する。
 - 最後にユーザーがGitHub GUIで確認の上submitするため、submitはしない。
+
+### pending inline comment の投稿手順
+
+`POST /repos/{owner}/{repo}/pulls/{number}/reviews` に `--input -` でJSON bodyを送る。
+
+- `event` フィールドは**省略**する（省略 = PENDING。`"PENDING"` は無効値でエラーになる）
+- `line` は整数が必要なため `-f` フラグではなく JSON heredoc を使う
+- 既存の pending review がある場合は、そのコメントを取得してマージした上で削除→再作成する（コメントを失わないため）
+
+```bash
+# 既存pending reviewのコメントを取得（あれば）
+REVIEW_ID=$(gh api repos/{owner}/{repo}/pulls/{number}/reviews \
+  --jq '.[] | select(.user.login=="{my_login}") | select(.state=="PENDING") | .id')
+if [ -n "$REVIEW_ID" ]; then
+  # 既存コメントを保存してから削除
+  gh api repos/{owner}/{repo}/pulls/{number}/reviews/$REVIEW_ID/comments \
+    --jq '[.[] | {path, line, side: "RIGHT", body}]' > /tmp/existing_comments.json
+  gh api repos/{owner}/{repo}/pulls/{number}/reviews/$REVIEW_ID --method DELETE
+fi
+
+# 作成（既存コメント + 新規コメントをまとめて1回で）
+gh api repos/{owner}/{repo}/pulls/{number}/reviews --method POST --input - <<'EOF'
+{
+  "body": "",
+  "comments": [
+    { "path": "file.rs", "line": 42, "side": "RIGHT", "body": "コメント内容" }
+  ]
+}
+EOF
+```
 
 ## 質問のフォーマット
 
