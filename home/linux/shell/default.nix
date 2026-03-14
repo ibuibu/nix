@@ -84,6 +84,7 @@
 
       cc = "claude";
       lg = "lazygit";
+      tmux-reload = "tmux source-file ~/.config/tmux/tmux.conf";
       ghv = "gh pr view --web";
 
       l = "eza --icons -1";
