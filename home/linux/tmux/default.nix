@@ -71,6 +71,12 @@
       set -g @plugin 'tmux-plugins/tmux-pain-control'
       set -g @plugin 'tmux-plugins/tmux-yank'
       set -g @plugin 'fcsonline/tmux-thumbs'
+      # tmux-resurrect: ペイン/ウィンドウ構成とコマンド状態を保存・復元する（保存: Prefix + C-s / 復元: Prefix + C-r）
+      set -g @plugin 'tmux-plugins/tmux-resurrect'
+      # tmux-continuum: 定期保存とtmux起動時の自動復元を行う
+      set -g @plugin 'tmux-plugins/tmux-continuum'
+      set -g @continuum-restore 'off'
+      set -g @continuum-save-interval '15'
       if-shell '[ ! -d ~/.tmux/plugins/tpm ]' 'run-shell "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"'
       if-shell '[ -f ~/.tmux/plugins/tmux-thumbs/tmux-thumbs.tmux ]' 'run-shell ~/.tmux/plugins/tmux-thumbs/tmux-thumbs.tmux'
       if-shell '[ -f ~/.tmux/plugins/tpm/tpm ]' 'run-shell ~/.tmux/plugins/tpm/tpm'
