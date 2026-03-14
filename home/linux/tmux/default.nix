@@ -38,7 +38,7 @@
       set-window-option -g window-status-format " #I: #W "
       set-window-option -g window-status-current-format "#[fg=colour255,bg=colour27,bold] #I: #W #[default]"
       set-option -g status-right-length 60
-      set-option -g status-right "#[fg=colour255,bg=colour241] %m/%d %a %H:%M:%S#[default]"
+      set-option -g status-right "#{prefix_highlight}#[fg=colour255,bg=colour241] %m/%d %a %H:%M:%S#[default]"
 
       set-option -g default-terminal screen-256color
 
@@ -71,6 +71,10 @@
       set -g @plugin 'tmux-plugins/tmux-pain-control'
       set -g @plugin 'tmux-plugins/tmux-yank'
       set -g @plugin 'fcsonline/tmux-thumbs'
+      set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
+      set -g @prefix_highlight_fg 'colour16'
+      set -g @prefix_highlight_bg 'colour220'
+      set -g @prefix_highlight_copy_mode_attr 'fg=colour16,bg=colour45,bold'
       # tmux-resurrect: ペイン/ウィンドウ構成とコマンド状態を保存・復元する（保存: Prefix + C-s / 復元: Prefix + C-r）
       set -g @plugin 'tmux-plugins/tmux-resurrect'
       # tmux-continuum: 定期保存とtmux起動時の自動復元を行う
