@@ -27,6 +27,8 @@ in {
 
     packages = with pkgs; [
       neovim
+      docker-client
+      docker-compose
     ];
 
     # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
