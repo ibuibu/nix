@@ -7,7 +7,6 @@
 in {
   nixpkgs = {
     overlays = [
-      inputs.neovim-nightly-overlay.overlays.default
       inputs.claude-code.overlays.default
     ];
 
@@ -32,7 +31,7 @@ in {
       k6
       xclip
       pass
-      neovim # nighly
+      neovim
       nerd-fonts.jetbrains-mono
       noto-fonts-cjk-sans
       postgresql
