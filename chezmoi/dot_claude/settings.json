@@ -28,6 +28,7 @@
       "Grep:*"
     ]
   },
+  "model": "sonnet",
   "hooks": {
     "Stop": [
       {
@@ -36,6 +37,10 @@
           {
             "type": "command",
             "command": "if grep -qi microsoft /proc/version 2>/dev/null; then powershell.exe '(New-Object System.Media.SoundPlayer \"$env:windir\\Media\\tada.wav\").PlaySync()'; elif [ \"$(uname)\" = \"Darwin\" ]; then afplay /System/Library/Sounds/Hero.aiff; fi"
+          },
+          {
+            "type": "command",
+            "command": "xmux notify --title 'Claude Code' --body 'Task completed' 2>/dev/null || true"
           }
         ]
       }
@@ -47,6 +52,10 @@
           {
             "type": "command",
             "command": "if grep -qi microsoft /proc/version 2>/dev/null; then powershell.exe '(New-Object System.Media.SoundPlayer \"$env:windir\\Media\\notify.wav\").PlaySync()'; elif [ \"$(uname)\" = \"Darwin\" ]; then afplay /System/Library/Sounds/Ping.aiff; fi"
+          },
+          {
+            "type": "command",
+            "command": "xmux notify --title 'Claude Code' --body 'Ready for input' 2>/dev/null || true"
           }
         ]
       }
@@ -58,7 +67,8 @@
   },
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,
-    "claude-md-management@claude-plugins-official": true
+    "claude-md-management@claude-plugins-official": true,
+    "figma@claude-plugins-official": true
   },
   "effortLevel": "high",
   "skipDangerousModePermissionPrompt": true
