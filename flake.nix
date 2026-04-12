@@ -78,7 +78,7 @@
           echo "Updating flake..."
           nix flake update
           echo "Updating home-manager..."
-          nix run "nixpkgs#home-manager" -- switch --flake ".#macos"
+          home-manager switch --flake ".#macos"
           echo "Updating nix-darwin..."
           nix run nix-darwin -- switch --flake ".#MacBookProM2"
           echo "Update complete!"
@@ -93,9 +93,9 @@
           nix flake update
           echo "Updating home-manager..."
           if grep -qi microsoft /proc/version 2>/dev/null; then
-            nix run "nixpkgs#home-manager" -- switch --flake ".#wsl"
+            home-manager switch --flake ".#wsl"
           else
-            nix run "nixpkgs#home-manager" -- switch --flake ".#linux"
+            home-manager switch --flake ".#linux"
           fi
           echo "Update complete!"
         '');
