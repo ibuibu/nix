@@ -5,6 +5,19 @@
       "type": "remote",
       "url": "https://mcp.atlassian.com/v1/mcp",
       "enabled": true
+    },
+    "google-sheets": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "mcp-google-sheets"
+      ],
+      "environment": {
+        "SERVICE_ACCOUNT_PATH": "/Users/hirokiibuka/.config/mcp/google-sheets-sa.json"
+      },
+      "enabled": true,
+      "timeout": 20000
     }
   },
   "permission": {
