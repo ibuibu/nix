@@ -15,7 +15,7 @@
 
       set -sg escape-time 10
 
-      bind [ copy-mode
+      bind Space copy-mode
       bind C-Space copy-mode
       set-option -g mouse on
       bind -T copy-mode MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "xclip -selection clipboard"
@@ -70,7 +70,6 @@
       set -g @plugin 'tmux-plugins/tpm'
       set -g @plugin 'tmux-plugins/tmux-pain-control'
       set -g @plugin 'tmux-plugins/tmux-yank'
-      set -g @plugin 'fcsonline/tmux-thumbs'
       set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
       set -g @prefix_highlight_fg 'colour16'
       set -g @prefix_highlight_bg 'colour220'
@@ -82,7 +81,6 @@
       set -g @continuum-restore 'off'
       set -g @continuum-save-interval '15'
       if-shell '[ ! -d ~/.tmux/plugins/tpm ]' 'run-shell "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"'
-      if-shell '[ -f ~/.tmux/plugins/tmux-thumbs/tmux-thumbs.tmux ]' 'run-shell ~/.tmux/plugins/tmux-thumbs/tmux-thumbs.tmux'
       if-shell '[ -f ~/.tmux/plugins/tpm/tpm ]' 'run-shell ~/.tmux/plugins/tpm/tpm'
 
       unbind \\
