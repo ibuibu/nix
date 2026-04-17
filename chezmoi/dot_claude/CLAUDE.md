@@ -17,6 +17,7 @@
 - カレントディレクトリが既にリポジトリ内なら `git -C` は使わない。`git -C` を付けると settings local の allowed コマンド（プレフィックスマッチ）に合致しなくなるため。
 - `git push` の前に、Rustコードは `cargo fmt`、TypeScriptコードは `npm run lint:fix`（または相当するnpm script）を実行する。
 - 開発中のコード修正に伴いPRのdescriptionが実態と合わなくなった場合は、descriptionも修正する。
+- `git worktree add` を勝手に実行しない。worktreeを作成する前に必ずユーザーに確認する。
 
 
 ## PRレビュー
