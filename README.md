@@ -8,7 +8,7 @@ dotfiles の管理には chezmoi を併用。
 ```
 flake.nix                 # エントリポイント
 home/
-  common/                 # 全OS共通パッケージ (gh, ghq, lazygit, ripgrep, bat, eza, fzf, chezmoi, jq)
+  common/                 # 全OS共通パッケージ (gh, ghq, lazygit, ripgrep, bat, eza, fzf, chezmoi, jq, just)
   darwin/                 # macOS 固有 (aarch64-darwin)
   linux/                  # Linux 汎用 (x86_64-linux)
     git/                  #   git設定 (SSH署名, エディタ等)
@@ -49,6 +49,12 @@ curl -L https://nixos.org/nix/install | sh
 nix run ".#update"
 ```
 
+2回目以降は `just` 経由でも実行できます（`nix run ".#update"` + `chezmoi apply` を一括実行）。
+
+```shell
+just update
+```
+
 ### プライベート設定（機密情報）
 
 SSH鍵やプロジェクト固有の設定など、Gitで管理したくない設定は `~/.zshrc.local` に記述します。
@@ -84,4 +90,7 @@ chezmoi diff         # 差分を確認
 ```shell
 # フォーマット
 nix fmt <nix-file>
+
+# justfile のレシピ一覧
+just
 ```
