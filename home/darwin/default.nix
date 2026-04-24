@@ -53,6 +53,8 @@ in {
 
       set -sg escape-time 10
 
+      set-option -g allow-rename off
+
       bind Space copy-mode
       bind C-Space copy-mode
       set-option -g mouse on
