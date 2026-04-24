@@ -46,10 +46,21 @@ chezmoi apply
 
 `chezmoi/` 配下が chezmoi 管理の dotfiles。`dot_` プレフィックスが `.` に変換される：
 
-- `dot_claude/` → `~/.claude/`（Claude Code 設定）
-- `dot_codex/` → `~/.codex/`（`AGENTS.md` は `~/.claude/CLAUDE.md` への symlink）
+- `dot_claude/` → `~/.claude/`（Claude Code 設定: `CLAUDE.md`, `settings.json`, `skills/`）
+- `dot_codex/` → `~/.codex/`（`AGENTS.md` と `skills/` は `~/.claude/` へ symlink）
+- `dot_copilot/` → `~/.copilot/`（Copilot の `copilot-instructions.md`）
 - `dot_config/nvim/` → `~/.config/nvim/`（LazyVim ベースの Neovim 設定）
 - `dot_command/` → `~/.command/`（カスタムスクリプト、PATH に追加済み）
+
+### AIツール間の skill / 指示書共有
+
+`~/.claude/` を単一の情報源として扱う：
+
+- **Codex**: `~/.codex/AGENTS.md` と `~/.codex/skills/` を `~/.claude/CLAUDE.md` / `~/.claude/skills/` への symlink で共有（chezmoi の `symlink_` プレフィックス）
+- **opencode**: `~/.claude/skills/<name>/SKILL.md` を公式サポート（[Docs](https://opencode.ai/docs/skills/)）
+- **GitHub Copilot**: Personal skills として `~/.claude/skills/`、Project skills として `.claude/skills/` を公式サポート（[Docs](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills)）
+
+→ skill を `~/.claude/skills/` に置けば 4ツールすべてで使える。
 
 ## Nix 編集時の注意
 

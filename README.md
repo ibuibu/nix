@@ -19,11 +19,11 @@ home/
     tmux/                 #   tmux (clip.exeでWindowsクリップボードにコピー)
 nix-darwin/               # nix-darwin システム設定
 chezmoi/                  # chezmoi管理のdotfiles
-  dot_claude/             #   Claude Code (CLAUDE.md, settings.json, commands/)
-  dot_codex/              #   Codex (AGENTS.md -> ~/.claude/CLAUDE.md へのsymlink)
+  dot_claude/             #   Claude Code (CLAUDE.md, settings.json, skills/)
+  dot_codex/              #   Codex (AGENTS.md / skills/ を ~/.claude/ へsymlink)
   dot_command/            #   カスタムコマンド (gho等)
   dot_config/             #   アプリ設定 (nvim)
-  dot_copilot/            #   Copilot設定
+  dot_copilot/            #   Copilot設定 (copilot-instructions.md)
 ```
 
 ### homeConfigurations
@@ -84,6 +84,19 @@ chezmoi re-add       # 変更済みファイルをリポジトリに反映
 chezmoi apply        # 変更を適用
 chezmoi diff         # 差分を確認
 ```
+
+### AIコーディングツール間での skill/指示書の共有
+
+`~/.claude/` を単一の情報源として、他ツールに共有する方針：
+
+| ツール | CLAUDE.md (指示書) | skills/ |
+|---|---|---|
+| Claude Code | `~/.claude/CLAUDE.md` (本体) | `~/.claude/skills/` (本体) |
+| Codex | `~/.codex/AGENTS.md` → symlink | `~/.codex/skills/` → symlink |
+| opencode | - | `~/.claude/skills/` を公式サポート |
+| GitHub Copilot | `.github/copilot-instructions.md` (別管理) | `~/.claude/skills/` を公式サポート |
+
+opencode / Copilot は `~/.claude/skills/` を直接読むため設定不要。
 
 ## その他のコマンド
 
