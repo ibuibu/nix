@@ -10,6 +10,7 @@
       fzf
       chezmoi
       jq
+      just
       claude-code
       glow
     ];
