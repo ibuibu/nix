@@ -172,6 +172,7 @@
 
       # Tools
       o = "opencode";
+      co = "copilot";
       lg = "lazygit";
       ghv = "gh pr view --web";
     };
