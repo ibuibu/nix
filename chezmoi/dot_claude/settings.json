@@ -3,20 +3,6 @@
     "ANTHROPIC_MODEL": "claude-opus-4-7"
   },
   "permissions": {
-    "deny": [
-      "Bash(curl:*)",
-      "Bash(wget:*)",
-      "Bash(sudo:*)",
-      "Bash(rm -rf:*)",
-      "Bash(rm -fr:*)",
-      "Bash(dd:*)",
-      "Bash(mkfs:*)",
-      "Bash(git push --force:*)",
-      "Bash(git push -f:*)",
-      "Bash(git reset --hard:*)",
-      "Bash(git clean -f:*)",
-      "Bash(git branch -D:*)"
-    ],
     "allow": [
       "Bash:gh pr diff",
       "Bash:gh pr view",
@@ -72,7 +58,22 @@
       "Read:*",
       "Search:*",
       "Grep:*"
-    ]
+    ],
+    "deny": [
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(sudo:*)",
+      "Bash(rm -rf:*)",
+      "Bash(rm -fr:*)",
+      "Bash(dd:*)",
+      "Bash(mkfs:*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git clean -f:*)",
+      "Bash(git branch -D:*)"
+    ],
+    "defaultMode": "auto"
   },
   "hooks": {
     "Stop": [
@@ -115,6 +116,7 @@
     "claude-md-management@claude-plugins-official": true,
     "figma@claude-plugins-official": true
   },
-  "effortLevel": "high",
-  "skipDangerousModePermissionPrompt": true
+  "effortLevel": "xhigh",
+  "skipDangerousModePermissionPrompt": true,
+  "skipAutoPermissionPrompt": true
 }
