@@ -29,6 +29,15 @@
         "lastUpdated": "2026-04-28T20:51:41.657Z",
         "gitCommitSha": "512f1c770037f8bb4a86748df54e219716d64414"
       }
+    ],
+    "frontend-design@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/home/ibuib/.claude/plugins/cache/claude-plugins-official/frontend-design/unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-29T21:25:23.870Z",
+        "lastUpdated": "2026-04-29T21:25:23.870Z"
+      }
     ]
   }
 }
