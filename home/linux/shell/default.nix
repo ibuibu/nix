@@ -10,7 +10,7 @@
         source ~/.nix-profile/etc/profile.d/nix.sh
       fi
     '';
-    initExtra = ''
+    initContent = ''
       source <(fzf --zsh)
       PATH=$HOME/.command:$PATH
       PATH=$HOME/.local/bin:$PATH
