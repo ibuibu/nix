@@ -23,10 +23,10 @@
     "figma@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/home/ibuib/.claude/plugins/cache/claude-plugins-official/figma/2.1.15",
-        "version": "2.1.15",
+        "installPath": "/home/ibuib/.claude/plugins/cache/claude-plugins-official/figma/2.1.30",
+        "version": "2.1.30",
         "installedAt": "2026-03-29T05:32:55.869Z",
-        "lastUpdated": "2026-04-24T11:14:00.155Z",
+        "lastUpdated": "2026-04-28T20:51:41.657Z",
         "gitCommitSha": "512f1c770037f8bb4a86748df54e219716d64414"
       }
     ]
