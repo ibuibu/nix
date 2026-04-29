@@ -13,5 +13,6 @@ in {
 
   programs.zsh.shellAliases = {
     de = lib.mkForce "cd '/mnt/c/Users/${username}/OneDrive/デスクトップ'";
+    zed = "/mnt/c/Users/${username}/AppData/Local/Programs/Zed/Zed.exe";
   };
 }

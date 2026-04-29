@@ -68,6 +68,7 @@
       c = "code .";
       de = "cd ~/Desktop";
       v = "nvim";
+      ze = "zed";
       vzsh = "nvim ~/.zshrc";
       vinit = "pushd ~/.config/nvim; nvim init.lua; popd";
       gitprune = "git branch --merged | grep -v '*' | xargs -I{} git branch -d {} && git fetch --prune";

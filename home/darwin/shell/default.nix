@@ -141,6 +141,7 @@
       c = "code .";
       de = "cd ~/Desktop";
       v = "nvim";
+      ze = "zed";
       vzsh = "nvim ~/.zshrc";
       vinit = "pushd ~/.config/nvim; nvim init.lua; popd";
       
