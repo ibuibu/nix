@@ -109,7 +109,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "echo \"$(pwd)\""
+    "command": "jq -r 'def fmt(n): if n == null then \"?\" elif n >= 1000000 then \"\\((n/100000|floor)/10)M\" elif n >= 1000 then \"\\((n/100|floor)/10)k\" else \"\\(n)\" end; (.context_window.current_usage // {}) as $u | (($u.input_tokens // 0) + ($u.output_tokens // 0) + ($u.cache_creation_input_tokens // 0) + ($u.cache_read_input_tokens // 0)) as $used | \"\\(.cwd) | \\(.model.display_name) | ctx: \\(fmt($used))/\\(fmt(.context_window.context_window_size)) (\\(.context_window.used_percentage // 0 | floor)%)\"'"
   },
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,
