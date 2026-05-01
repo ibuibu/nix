@@ -7,6 +7,9 @@
     syntaxHighlighting.enable = false;
 
     envExtra = ''
+      # Avoid /etc/zshrc running compinit before Zim's completion module.
+      export NOSYSZSHRC=1
+
       # Load Nix profile if it exists
       if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then
         source ~/.nix-profile/etc/profile.d/nix.sh
@@ -79,9 +82,6 @@
         # mise
         eval "$(mise activate zsh)"
 
-        # fzf
-        [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
         # ghcup
         [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
 
@@ -113,12 +113,22 @@
         for key ('j') bindkey -M vicmd ''${key} history-substring-search-down
         unset key
 
-        # Completions (AFTER Zim completion module)
+        # Completions
         fpath=("$HOME/.zsh/completions" $fpath)
+
+        # Lightweight completion init.
+        autoload -Uz compinit
+        compinit -C -d ''${ZDOTDIR:-$HOME}/.zcompdump
         
         # Google Cloud SDK completion (after Zim)
-        if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then 
-          source "$HOME/google-cloud-sdk/completion.zsh.inc"
+        # completion.zsh.inc is expensive (~0.5s), so skip auto-load in tmux.
+        function gcloud-comp-on() {
+          if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then
+            source "$HOME/google-cloud-sdk/completion.zsh.inc"
+          fi
+        }
+        if [ -z "$TMUX" ]; then
+          gcloud-comp-on
         fi
         
         # gh completion (after Zim)

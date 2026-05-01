@@ -37,9 +37,10 @@ zmodule sindresorhus/pure --source async.zsh --source pure.zsh
 
 # Additional completion definitions for Zsh.
 zmodule zsh-users/zsh-completions --fpath src
-# Enables and configures smart and extensive tab completion.
-# completion must be sourced after all modules that add completion definitions.
-zmodule completion
+# NOTE:
+# Zim completion module scans completion files on every shell startup and can
+# be expensive in tmux pane creation. Completion is initialized manually in
+# zshrc with a lightweight compinit (-C).
 
 #
 # Modules that must be initialized last
@@ -54,4 +55,3 @@ zmodule zsh-users/zsh-history-substring-search
 # Fish-like autosuggestions for Zsh.
 zmodule zsh-users/zsh-autosuggestions
 # }}} End configuration added by Zim install
-
