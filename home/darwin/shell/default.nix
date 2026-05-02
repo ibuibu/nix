@@ -42,7 +42,7 @@
       # メインの設定
       ''
         # Homebrew
-        eval $(/opt/homebrew/bin/brew shellenv)
+        eval "$(/opt/homebrew/bin/brew shellenv)"
         
         # Nix PATHを最優先に（Homebrewの後に実行して上書き）
         export PATH=~/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH
