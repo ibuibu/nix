@@ -30,26 +30,26 @@
 
       function gc() {
         branches=$(git branch --all --sort=-authordate --format="%(refname:short)%09%(authordate:relative)%09%(authorname)" | grep -v HEAD | grep -v origin)
-        branch=$(echo "$branches" | column -ts "$(printf '\t')" | fzf)
+        branch=$(echo "$branches" | column -ts "$(printf '\t')" | fzf --tmux)
         git checkout $(echo "$branch" | awk '{print $1}' )
       }
 
       function gs() {
-        p=$(ghq list | cut -d "/" -f 2,3 | sort | fzf)
+        p=$(ghq list | cut -d "/" -f 2,3 | sort | fzf --tmux)
         if [ -n "$p" ]; then
           cd $(ghq root)/github.com/$p
         fi
       }
 
       function ws() {
-        local selected=$(gwq list --json | jq -r '.[] | "\(.branch)\t\(.path)"' | fzf --with-nth=1 --delimiter='\t')
+        local selected=$(gwq list --json | jq -r '.[] | "\(.branch)\t\(.path)"' | fzf --tmux --with-nth=1 --delimiter='\t')
         if [ -n "$selected" ]; then
           cd "$(echo "$selected" | cut -f2)"
         fi
       }
 
       function gr() {
-        pushd $(ghq root)/github.com/$(ghq list | cut -d "/" -f 2,3 | sort | fzf)
+        pushd $(ghq root)/github.com/$(ghq list | cut -d "/" -f 2,3 | sort | fzf --tmux)
         gho
         popd
       }

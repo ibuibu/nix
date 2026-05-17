@@ -66,8 +66,8 @@
         setopt INC_APPEND_HISTORY
         # 複数の zsh セッション間で履歴を共有する。
         setopt SHARE_HISTORY
-        # 重複コマンドを整理して履歴をきれいに保つ。
-        setopt HIST_IGNORE_ALL_DUPS
+        # 直前と同じコマンドは履歴に追加しない。
+        setopt HIST_IGNORE_DUPS
         # 履歴保存前に余分な連続スペースを詰める。
         setopt HIST_REDUCE_BLANKS
         setopt auto_pushd
@@ -193,13 +193,13 @@
     # Git branch checkout with fzf
     function gc() {
       branches=$(git branch --all --format="%(refname:short)%09%(authordate:relative)%09%(authorname)" | grep -v HEAD | grep -v origin)
-      branch=$(echo "$branches" | column -ts "$(printf '\t')" | fzf)
+      branch=$(echo "$branches" | column -ts "$(printf '\t')" | fzf --tmux)
       git checkout $(echo "$branch" | awk '{print $1}' )
     }
 
     # ghq select with fzf
     function gs() {
-      p=$(ghq list | cut -d "/" -f 2,3 | sort | fzf)
+      p=$(ghq list | cut -d "/" -f 2,3 | sort | fzf --tmux)
       if [ -n "$p" ]; then
         cd $(ghq root)/github.com/$p
       fi
@@ -207,7 +207,7 @@
 
     # gwq select with fzf
     function ws() {
-      local selected=$(gwq list --json | jq -r '.[] | "\(.branch)\t\(.path)"' | fzf --with-nth=1 --delimiter='\t')
+      local selected=$(gwq list --json | jq -r '.[] | "\(.branch)\t\(.path)"' | fzf --tmux --with-nth=1 --delimiter='\t')
       if [ -n "$selected" ]; then
         cd "$(echo "$selected" | cut -f2)"
       fi
@@ -215,7 +215,7 @@
 
     # ghq + gho
     function gr() {
-      pushd $(ghq root)/github.com/$(ghq list | cut -d "/" -f 2,3 | sort | fzf)
+      pushd $(ghq root)/github.com/$(ghq list | cut -d "/" -f 2,3 | sort | fzf --tmux)
       gho
       popd
     }
