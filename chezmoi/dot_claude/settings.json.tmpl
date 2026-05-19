@@ -1,6 +1,6 @@
 {
   "env": {
-    "ANTHROPIC_MODEL": "claude-opus-4-7"
+    "ANTHROPIC_MODEL": "{{ if eq .chezmoi.os "darwin" }}claude-sonnet-4-6{{ else }}claude-opus-4-7{{ end }}"
   },
   "permissions": {
     "allow": [

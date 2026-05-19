@@ -182,6 +182,7 @@
       dcda = "docker stop $(docker ps -q)";
 
       # Tools
+      cc = "claude";
       o = "opencode";
       co = "copilot";
       lg = "lazygit";
