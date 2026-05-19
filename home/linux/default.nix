@@ -45,9 +45,11 @@ in {
 
   services.gpg-agent = {
     enable = true;
-    enableSshSupport = true;
+    enableSshSupport = false;
     defaultCacheTtl = 86400; # 24時間 (秒単位)
     maxCacheTtl = 86400; # 24時間 (秒単位)
     pinentry.package = pkgs.pinentry-tty;
   };
+
+  services.ssh-agent.enable = true;
 }
