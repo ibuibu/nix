@@ -174,6 +174,7 @@
       g = "git";
       gcb = "git checkout -b";
       gpl = "git pull";
+      gitprune = "git branch --merged | grep -v '*' | xargs -I{} git branch -d {} && git fetch --prune";
 
       # Docker
       docker-compose = "docker compose";
@@ -258,7 +259,7 @@
           cp ~/.zsh_history ~/.history-backup/zsh_history_backup
         }
 
-    function gitprune() {
+    function gitprune2() {
       emulate -L zsh
       setopt pipefail
 
