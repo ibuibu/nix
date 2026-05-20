@@ -1,4 +1,8 @@
-{pkgs, lib, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   programs.zsh = {
     enable = true;
     # Zimが提供するので無効化
@@ -29,7 +33,7 @@
       export PATH=$HOME/.command:$PATH
       export PATH=$HOME/.local/bin:$PATH
       export PATH=$HOME/.opencode/bin:$PATH
-      
+
       # pnpm
       export PNPM_HOME="$HOME/Library/pnpm"
       case ":$PATH:" in
@@ -43,10 +47,10 @@
       ''
         # Homebrew
         eval "$(/opt/homebrew/bin/brew shellenv)"
-        
+
         # Nix PATHを最優先に（Homebrewの後に実行して上書き）
         export PATH=~/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH
-        
+
         # vi mode
         bindkey -v
 
@@ -74,7 +78,7 @@
         setopt pushd_ignore_dups
 
         # Google Cloud SDK (PATH only, completion after Zim)
-        if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then 
+        if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then
           source "$HOME/google-cloud-sdk/path.zsh.inc"
         fi
         export CLOUDSDK_PYTHON_SITEPACKAGES=1
@@ -119,7 +123,7 @@
         # Lightweight completion init.
         autoload -Uz compinit
         compinit -C -d ''${ZDOTDIR:-$HOME}/.zcompdump
-        
+
         # Google Cloud SDK completion (after Zim)
         # completion.zsh.inc is expensive (~0.5s), so skip auto-load in tmux.
         function gcloud-comp-on() {
@@ -130,7 +134,7 @@
         if [ -z "$TMUX" ]; then
           gcloud-comp-on
         fi
-        
+
         # gh completion (after Zim)
         eval "$(gh completion -s zsh)"
 
@@ -154,7 +158,7 @@
       ze = "zed";
       vzsh = "nvim ~/.zshrc";
       vinit = "pushd ~/.config/nvim; nvim init.lua; popd";
-      
+
       # macOS specific
       rm = "trash -F";
       bell = "afplay /System/Library/Sounds/Hero.aiff";
@@ -170,7 +174,6 @@
       g = "git";
       gcb = "git checkout -b";
       gpl = "git pull";
-      gitprune = "git branch --merged | grep -v '*' | xargs -I{} git branch -d {} && git fetch --prune";
 
       # Docker
       docker-compose = "docker compose";
@@ -191,68 +194,132 @@
   };
 
   home.file.".zsh/functions.zsh".text = ''
-    # Git branch checkout with fzf
-    function gc() {
-      branches=$(git branch --all --format="%(refname:short)%09%(authordate:relative)%09%(authorname)" | grep -v HEAD | grep -v origin)
-      branch=$(echo "$branches" | column -ts "$(printf '\t')" | fzf --tmux)
-      git checkout $(echo "$branch" | awk '{print $1}' )
-    }
+        # Git branch checkout with fzf
+        function gc() {
+          branches=$(git branch --all --format="%(refname:short)%09%(authordate:relative)%09%(authorname)" | grep -v HEAD | grep -v origin)
+          branch=$(echo "$branches" | column -ts "$(printf '\t')" | fzf --tmux)
+          git checkout $(echo "$branch" | awk '{print $1}' )
+        }
 
-    # ghq select with fzf
-    function gs() {
-      p=$(ghq list | cut -d "/" -f 2,3 | sort | fzf --tmux)
-      if [ -n "$p" ]; then
-        cd $(ghq root)/github.com/$p
+        # ghq select with fzf
+        function gs() {
+          p=$(ghq list | cut -d "/" -f 2,3 | sort | fzf --tmux)
+          if [ -n "$p" ]; then
+            cd $(ghq root)/github.com/$p
+          fi
+        }
+
+        # gwq select with fzf
+        function ws() {
+          local selected=$(gwq list --json | jq -r '.[] | "\(.branch)\t\(.path)"' | fzf --tmux --with-nth=1 --delimiter='\t')
+          if [ -n "$selected" ]; then
+            cd "$(echo "$selected" | cut -f2)"
+          fi
+        }
+
+        # ghq + gho
+        function gr() {
+          pushd $(ghq root)/github.com/$(ghq list | cut -d "/" -f 2,3 | sort | fzf --tmux)
+          gho
+          popd
+        }
+
+        # Check SSL certificate
+        function chkssl() {
+          openssl s_client -connect ''${1}:443 -servername ''${1} 2>/dev/null < /dev/null | openssl x509 -noout -dates
+        }
+
+        # Timer with notification
+        function timer() {
+          seconds=$1
+          echo "Timer set!! $(date +%H:%M:%S) -> $(date -v+''${seconds}S +%H:%M:%S)\n"
+          sleep $1
+          osascript -e 'on run argv
+            display notification item 1 of argv sound name "Glass" with title "タイマー"
+          end run' -- "$2"
+        }
+
+        # Run command with notification
+        function wn() {
+          "$@"
+          osascript -e 'on run argv
+            display notification item 1 of argv sound name "Glass" with title "お知らせ"
+          end run' -- "$*"
+        }
+
+        # Convert aif to mp3
+        function aiftomp3() {
+          ffmpeg -i ''${1} -f mp3 -b:a 192k $(basename ''${1} .aif).mp3
+        }
+
+        # Backup zsh history with timestamp
+        function histbk() {
+          mkdir -p ~/.history-backup
+          cp ~/.zsh_history ~/.history-backup/zsh_history_backup
+        }
+
+    function gitprune() {
+      emulate -L zsh
+      setopt pipefail
+
+      local base_branch="''${1:-main}"
+      local current_branch branch track reply
+      local -a candidates=()
+
+      if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        printf 'Not in a git repository.\n' >&2
+        return 1
       fi
-    }
 
-    # gwq select with fzf
-    function ws() {
-      local selected=$(gwq list --json | jq -r '.[] | "\(.branch)\t\(.path)"' | fzf --tmux --with-nth=1 --delimiter='\t')
-      if [ -n "$selected" ]; then
-        cd "$(echo "$selected" | cut -f2)"
+      if ! git show-ref --verify --quiet "refs/heads/$base_branch"; then
+        printf 'Base branch %s not found.\n' "$base_branch" >&2
+        return 1
       fi
-    }
 
-    # ghq + gho
-    function gr() {
-      pushd $(ghq root)/github.com/$(ghq list | cut -d "/" -f 2,3 | sort | fzf --tmux)
-      gho
-      popd
-    }
+      current_branch=$(git branch --show-current)
+      if [[ "$current_branch" != "$base_branch" ]]; then
+        if [[ -n "$current_branch" ]]; then
+          printf 'Current branch is %s. Switch to %s? [y/N] ' "$current_branch" "$base_branch"
+        else
+          printf 'Current HEAD is detached. Switch to %s? [y/N] ' "$base_branch"
+        fi
+        read -r reply </dev/tty || return 1
+        case "$reply" in
+          y|Y) git switch "$base_branch" || return ;;
+          *)
+            printf 'aborted\n'
+            return 1
+            ;;
+        esac
+      fi
 
-    # Check SSL certificate
-    function chkssl() {
-      openssl s_client -connect ''${1}:443 -servername ''${1} 2>/dev/null < /dev/null | openssl x509 -noout -dates
-    }
+      git fetch --prune || return
 
-    # Timer with notification
-    function timer() {
-      seconds=$1
-      echo "Timer set!! $(date +%H:%M:%S) -> $(date -v+''${seconds}S +%H:%M:%S)\n"
-      sleep $1
-      osascript -e 'on run argv
-        display notification item 1 of argv sound name "Glass" with title "タイマー"
-      end run' -- "$2"
-    }
+      while IFS=$'\t' read -r branch track; do
+        [[ -n "$branch" ]] || continue
+        [[ "$branch" == "$base_branch" ]] && continue
+        [[ "$track" == "[gone]" ]] || continue
+        git merge-base --is-ancestor "$branch" "refs/heads/$base_branch" || continue
+        candidates+=("$branch")
+      done < <(git for-each-ref --format='%(refname:short)%09%(upstream:track)' refs/heads)
 
-    # Run command with notification
-    function wn() {
-      "$@"
-      osascript -e 'on run argv
-        display notification item 1 of argv sound name "Glass" with title "お知らせ"
-      end run' -- "$*"
-    }
+      if (( ''${#candidates[@]} == 0 )); then
+        printf 'No merged local branches whose upstream is gone.\n'
+        return 0
+      fi
 
-    # Convert aif to mp3
-    function aiftomp3() {
-      ffmpeg -i ''${1} -f mp3 -b:a 192k $(basename ''${1} .aif).mp3
-    }
+      printf 'Candidates (%d):\n' "''${#candidates[@]}"
+      printf '  %s\n' "''${candidates[@]}"
+      printf '\n'
 
-    # Backup zsh history with timestamp
-    function histbk() {
-      mkdir -p ~/.history-backup
-      cp ~/.zsh_history ~/.history-backup/zsh_history_backup
+      for branch in "''${candidates[@]}"; do
+        printf 'Delete %s? [y/N] ' "$branch"
+        read -r reply </dev/tty || return 1
+        case "$reply" in
+          y|Y) git branch -d "$branch" || return ;;
+          *) printf 'skip %s\n' "$branch" ;;
+        esac
+      done
     }
   '';
 }
