@@ -129,7 +129,6 @@
       cat = "bat";
       grep = "rg";
       relogin = "exec $SHELL -l";
-      c = "code .";
       de = "cd ~/Desktop";
       v = "nvim";
       ze = "zed";
