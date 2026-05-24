@@ -196,7 +196,7 @@
   home.file.".zsh/functions.zsh".text = ''
         # Git branch checkout with fzf
         function gc() {
-          branches=$(git branch --all --format="%(refname:short)%09%(authordate:relative)%09%(authorname)" | grep -v HEAD | grep -v origin)
+          branches=$(git branch --all --sort=-authordate --format="%(refname:short)%09%(authordate:relative)%09%(authorname)" | grep -v HEAD | grep -v origin)
           branch=$(echo "$branches" | column -ts "$(printf '\t')" | fzf --tmux)
           git checkout $(echo "$branch" | awk '{print $1}' )
         }
