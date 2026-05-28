@@ -1,3 +1,4 @@
 .claude/settings.local.json
 .zshrc.local
 chezmoi/dot_claude/private_plugins/known_marketplaces.json
+chezmoi/dot_claude/private_plugins/private_installed_plugins.json
