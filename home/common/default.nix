@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   home = {
+    enableNixpkgsReleaseCheck = false;
     packages = with pkgs; [
       gh
       ghq
