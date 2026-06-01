@@ -14,6 +14,7 @@
             source <(fzf --zsh)
             PATH=$HOME/.command:$PATH
             PATH=$HOME/.local/bin:$PATH
+            PATH=$HOME/.cargo/bin:$PATH
             HISTFILE=~/.zsh_history
             HISTSIZE=200000
             SAVEHIST=200000
