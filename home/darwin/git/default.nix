@@ -35,6 +35,7 @@
     ignores = [
       ".DS_Store"
       ".env"
+      ".codegraph"
     ];
   };
 }
