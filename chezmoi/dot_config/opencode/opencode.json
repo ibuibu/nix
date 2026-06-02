@@ -34,7 +34,7 @@
     "external_directory": {
       "/Users/hirokiibuka/ghq/github.com/skyway-internal": "allow",
       "/Users/hirokiibuka/ghq/github.com/skyway-internal/**": "allow",
-      "*": "ask"
+      "*": "allow"
     }
   }
 }
