@@ -32,6 +32,7 @@ gh api graphql -f query='
           isResolved
           comments(first: 1) {
             nodes {
+              databaseId
               body
               path
               line
@@ -60,6 +61,7 @@ gh api graphql -f query='
           isResolved
           comments(first: 1) {
             nodes {
+              databaseId
               body
               path
               line
@@ -106,6 +108,10 @@ gh api graphql -f query='
 # リプライ
 gh api graphql -f query='mutation { addPullRequestReviewThreadReply(input: { pullRequestReviewThreadId: "THREAD_ID", body: "理由" }) { comment { id } } }'
 
+# レビューコメントに 👍 リアクションを付ける（databaseId を使う）
+gh api repos/OWNER/REPO/pulls/comments/COMMENT_DATABASE_ID/reactions \
+  --method POST -f content='+1'
+
 # resolve
 gh api graphql -f query='mutation { resolveReviewThread(input: { threadId: "THREAD_ID" }) { thread { isResolved } } }'
 ```
@@ -118,6 +124,10 @@ gh api graphql -f query='mutation { resolveReviewThread(input: { threadId: "THRE
 ```bash
 # リプライ（コミットハッシュ付き）
 gh api graphql -f query='mutation { addPullRequestReviewThreadReply(input: { pullRequestReviewThreadId: "THREAD_ID", body: "対応完了: HASH" }) { comment { id } } }'
+
+# レビューコメントに 👍 リアクションを付ける（databaseId を使う）
+gh api repos/OWNER/REPO/pulls/comments/COMMENT_DATABASE_ID/reactions \
+  --method POST -f content='+1'
 
 # resolve
 gh api graphql -f query='mutation { resolveReviewThread(input: { threadId: "THREAD_ID" }) { thread { isResolved } } }'
