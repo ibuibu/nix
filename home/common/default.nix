@@ -1,4 +1,6 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  codegraph = pkgs.callPackage ./pkgs/codegraph.nix {};
+in {
   home = {
     enableNixpkgsReleaseCheck = false;
     packages = with pkgs; [
@@ -14,6 +16,7 @@
       just
       claude-code
       glow
+      codegraph
     ];
   };
 
