@@ -11,18 +11,24 @@ gh pr view --json number,url
 でPR番号を取得。リポジトリのowner/nameは`gh repo view --json owner,name`で取得。
 
 ### 2. 未解決レビュースレッドの取得
-GraphQL APIで`isResolved: false`のスレッドを取得：
+GraphQL APIでページネーションを使い、**全スレッド**を取得する。
+1ページ目：
 ```bash
 gh api graphql -f query='
 {
   repository(owner: "OWNER", name: "REPO") {
     pullRequest(number: NUMBER) {
       reviewThreads(first: 50) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         nodes {
           id
           isResolved
           comments(first: 1) {
             nodes {
+              databaseId
               body
               path
               line
@@ -35,9 +41,43 @@ gh api graphql -f query='
 }'
 ```
 
+`hasNextPage`が`true`の場合、`after`引数に`endCursor`の値を渡して次ページを取得する：
+```bash
+gh api graphql -f query='
+{
+  repository(owner: "OWNER", name: "REPO") {
+    pullRequest(number: NUMBER) {
+      reviewThreads(first: 50, after: "CURSOR") {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        nodes {
+          id
+          isResolved
+          comments(first: 1) {
+            nodes {
+              databaseId
+              body
+              path
+              line
+            }
+          }
+        }
+      }
+    }
+  }
+}'
+```
+
+`hasNextPage`が`false`になるまで繰り返し、全ページの結果から`isResolved: false`のスレッドだけを抽出する。
+
 ### 3. 各レビューの処理（すべてresolveされるまで繰り返し）
 
-各未解決レビューについて：
+各未解決レビューについて、以下のスキップ条件に該当する場合は無視して次に進む：
+- Copilot以外（人間のレビュアー）からのレビューで、PRオーナーが既にリプライしている場合
+
+スキップしなかった各レビューについて：
 
 1. **レビュー内容を日本語で要約してユーザーに提示**
    - 該当ファイルパスと行番号
@@ -48,15 +88,25 @@ gh api graphql -f query='
    - 技術的な観点から対応すべきか判断
    - 対応する場合の実装方針も提示
 
-3. **ユーザーに確認**
-   - 「対応する？それとも〇〇の理由でresolve？」のように聞く
+3. **ユーザーに確認（AskUserQuestion toolを使う）**
+   - 必ずAskUserQuestion toolで選択肢を提示する
+   - 選択肢の例：
+     - 「対応する」（コード修正して対応）
+     - 「〇〇の理由でresolve」（対応不要としてresolve）
+   - headerはレビューの要点を短く（例: "CORS設定", "エラー処理"）
 
 4. **ユーザーの判断に応じて実行**
+
+**重要**: resolveするのはCopilotからのレビューのみ。人間のレビュアーからのレビューはリプライのみ行い、resolveはしない。
 
 #### 対応不要の場合
 ```bash
 # リプライ
 gh api graphql -f query='mutation { addPullRequestReviewThreadReply(input: { pullRequestReviewThreadId: "THREAD_ID", body: "理由" }) { comment { id } } }'
+
+# レビューコメントに 👍 リアクションを付ける（databaseId を使う）
+gh api repos/OWNER/REPO/pulls/comments/COMMENT_DATABASE_ID/reactions \
+  --method POST -f content='+1'
 
 # resolve
 gh api graphql -f query='mutation { resolveReviewThread(input: { threadId: "THREAD_ID" }) { thread { isResolved } } }'
@@ -71,26 +121,25 @@ gh api graphql -f query='mutation { resolveReviewThread(input: { threadId: "THRE
 # リプライ（コミットハッシュ付き）
 gh api graphql -f query='mutation { addPullRequestReviewThreadReply(input: { pullRequestReviewThreadId: "THREAD_ID", body: "対応完了: HASH" }) { comment { id } } }'
 
+# レビューコメントに 👍 リアクションを付ける（databaseId を使う）
+gh api repos/OWNER/REPO/pulls/comments/COMMENT_DATABASE_ID/reactions \
+  --method POST -f content='+1'
+
 # resolve
 gh api graphql -f query='mutation { resolveReviewThread(input: { threadId: "THREAD_ID" }) { thread { isResolved } } }'
 ```
 
 ### 4. 完了処理
-すべてresolveされたら`git push`を実行。
+すべてresolveされたら`git push`する。
 
 ### 5. 再レビュー依頼
-push完了後、ユーザーに確認：
+push完了後、レビュワーに再レビュー依頼を送るかユーザーにAskUserQuestion toolで確認する。
 
-```
-レビュアーに再レビュー依頼を送りますか？
-1. はい（再レビュー依頼を送る）
-2. いいえ（スキップ）
-```
-
-「はい」を選択した場合：
+「はい」の場合、PRのレビュワーを取得して再レビュー依頼を送る：
 ```bash
-gh pr ready --undo  # ドラフトの場合のみ（オプショナル）
-gh pr review REQUEST_NUMBER --request-reviewer @REVIEWER_LOGIN
-```
+# レビュワー取得
+gh pr view --json reviewRequests,reviews
 
-レビュアーが複数いる場合は全員に再依頼。
+# 再レビュー依頼
+gh pr edit --add-reviewer REVIEWER_LOGIN
+```
