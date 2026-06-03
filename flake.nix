@@ -78,7 +78,7 @@
           echo "Updating flake..."
           nix flake update
           echo "Updating home-manager..."
-          home-manager switch --flake ".#macos"
+          home-manager switch -b backup --flake ".#macos"
           echo "Updating nix-darwin..."
           sudo nix --extra-experimental-features 'nix-command flakes' run nix-darwin -- switch --flake ".#MacBookProM2"
           echo "Update complete!"
