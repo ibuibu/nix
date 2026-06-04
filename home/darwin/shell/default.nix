@@ -321,5 +321,20 @@
         esac
       done
     }
+
+    function prls() {
+      local state="''${1:-open}"
+      local num url
+      num=$(gh pr list --state "$state" --limit 100 \
+        --json number,title,author,state,headRefName \
+        --template '{{range .}}{{printf "#%v\t%s\t[%s]\t%s\t(%s)\n" .number .title .state .author.login .headRefName}}{{end}}' \
+        | fzf --tmux --prompt="PR($state)> " | awk '{print $1}' | tr -d '#') || return
+      [ -z "$num" ] && return
+      if [[ -n "$WSL_DISTRO_NAME" ]] || grep -qi microsoft /proc/version 2>/dev/null; then
+        url=$(gh pr view "$num" --json url -q .url) && powershell.exe start "$url"
+      else
+        gh pr view "$num" --web
+      fi
+    }
   '';
 }
