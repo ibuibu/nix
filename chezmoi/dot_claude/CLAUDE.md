@@ -11,6 +11,11 @@
 - コンテンツ検索は必ずGrepツールを使って。Bashの`grep -r`コマンドは絶対に使わないで。
 - 推測で答えない。必ずコードを確認してから回答する。
 
+## chezmoi 管理ファイル
+
+- chezmoi 管理対象のファイル（`~/.claude/CLAUDE.md`, `~/.claude/settings.json` など、`~/ghq/github.com/ibuibu/nix/chezmoi/` 配下にソースがあるもの）を編集したら、必ず nix repo 側にも同じ変更を反映してコミット・main に push する。
+- 反映漏れを防ぐため、編集前に `~/ghq/github.com/ibuibu/nix/chezmoi/` 配下に対応するソースがあるか確認する。
+
 ### git
 
 - コミットメッセージはConventional Commits形式（`feat:`, `fix:`, `docs:`, `refactor:`, `chore:` 等）で、日本語で書く。
