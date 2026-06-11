@@ -2,6 +2,7 @@
 go = "latest"
 node = "22"
 python = "3.9"
+uv = "latest"
 "vfox:mise-plugins/vfox-terraform" = "1.9.0"
 
 [settings]
