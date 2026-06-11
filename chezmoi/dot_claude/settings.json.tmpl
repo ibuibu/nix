@@ -1,8 +1,14 @@
 {
   "env": {
-    "ANTHROPIC_MODEL": "{{ if eq .chezmoi.os "darwin" }}claude-sonnet-4-6{{ else }}claude-opus-4-7{{ end }}"
+    "ANTHROPIC_MODEL": "{{ if eq .chezmoi.os "darwin" }}claude-sonnet-4-6{{ else }}claude-opus-4-7{{ end }}",
+    "DISABLE_ERROR_REPORTING": "1",
+    "DISABLE_TELEMETRY": "1"
   },
   "permissions": {
+    "additionalDirectories": [
+      "~/ghq/github.com",
+      "~/worktrees"
+    ],
     "allow": [
       "Bash:gh pr diff",
       "Bash:gh pr view",
@@ -22,7 +28,6 @@
       "Bash:cargo tree",
       "Bash:npx tsc --noemit",
       "Bash:npm run",
-      "Bash:npm install",
       "Bash:npm view",
       "Bash:npm config",
       "Bash:npm ls",
@@ -59,23 +64,210 @@
       "Search",
       "Grep"
     ],
+    "ask": [
+      "Bash(npm install:*)",
+      "Bash(pip install:*)",
+      "Bash(brew install:*)"
+    ],
     "deny": [
-      "Bash(curl:*)",
-      "Bash(wget:*)",
       "Bash(sudo:*)",
+      "Bash(su:*)",
+      "Bash(rm:*)",
       "Bash(rm -rf:*)",
       "Bash(rm -fr:*)",
       "Bash(dd:*)",
       "Bash(mkfs:*)",
+      "Bash(chmod:*)",
+      "Bash(chown:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(git clone:*)",
+      "Bash(git push:*)",
       "Bash(git push --force:*)",
       "Bash(git push -f:*)",
+      "Bash(git remote add:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git remote remove:*)",
+      "Bash(git remote rename:*)",
       "Bash(git reset --hard:*)",
+      "Bash(git rebase:*)",
+      "Bash(git clean:*)",
       "Bash(git clean -f:*)",
-      "Bash(git branch -D:*)"
+      "Bash(git branch -D:*)",
+      "Bash(docker push:*)",
+      "Bash(terraform apply:*)",
+      "Bash(terraform destroy:*)",
+      "Read(//**/.env*)",
+      "Read(//**/secrets/**)",
+      "Read(//**/credentials*)",
+      "Read(//**/*.key)",
+      "Read(//**/*.pem)",
+      "Read(//**/*.tfvars)",
+      "Read(//**/*.tfstate*)",
+      "Read(//**/.git-credentials)",
+      "Read(//**/.netrc)",
+      "Read(//**/.npmrc)",
+      "Read(//**/id_rsa*)",
+      "Read(//**/id_ed25519*)",
+      "Read(//**/*kubeconfig*)",
+      "Read(//**/*service-account*.json)",
+      "Read(//**/*gcp-key*.json)",
+      "Read(//**/application_default_credentials.json)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.docker/config.json)",
+      "Read(~/.kube/**)",
+      "Read(~/.config/gcloud/**)",
+      "Write(//**/.env*)",
+      "Write(//**/secrets/**)",
+      "Write(//**/credentials*)",
+      "Write(//**/*.key)",
+      "Write(//**/*.pem)",
+      "Write(//**/*.tfvars)",
+      "Write(//**/*.tfstate*)",
+      "Write(//**/.git-credentials)",
+      "Write(//**/.netrc)",
+      "Write(//**/.npmrc)",
+      "Write(//**/id_rsa*)",
+      "Write(//**/id_ed25519*)",
+      "Write(//**/*kubeconfig*)",
+      "Write(//**/*service-account*.json)",
+      "Write(//**/*gcp-key*.json)",
+      "Write(//**/application_default_credentials.json)",
+      "Write(~/.ssh/**)",
+      "Write(~/.aws/**)",
+      "Write(~/.docker/config.json)",
+      "Write(~/.config/**)",
+      "Write(~/.kube/**)",
+      "Write(~/.config/gcloud/**)",
+      "Write(~/.zshrc)",
+      "Write(~/.zshenv)",
+      "Write(~/.bashrc)",
+      "Write(~/.bash_profile)",
+      "Edit(//**/.env*)",
+      "Edit(//**/.git-credentials)",
+      "Edit(//**/.netrc)",
+      "Edit(//**/.npmrc)",
+      "Edit(//**/*.tfvars)",
+      "Edit(//**/*service-account*.json)",
+      "Edit(//**/*gcp-key*.json)",
+      "Edit(//**/application_default_credentials.json)",
+      "Edit(~/.ssh/**)",
+      "Edit(~/.aws/**)",
+      "Edit(~/.docker/config.json)",
+      "Edit(~/.config/**)",
+      "Edit(~/.kube/**)",
+      "Edit(~/.config/gcloud/**)",
+      "Edit(~/.zshrc)",
+      "Edit(~/.zshenv)",
+      "Edit(~/.bashrc)",
+      "Edit(~/.bash_profile)"
     ],
     "defaultMode": "auto"
   },
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": false,
+    "allowUnsandboxedCommands": false,
+    "network": {
+      "allowedDomains": [
+        "docs.aws.amazon.com",
+        "code.claude.com",
+        "api.github.com",
+        "www.googleapis.com",
+        "*.amazonaws.com",
+        "cloud.google.com",
+        "*.googleapis.com",
+        "*.google.com",
+        "*.gcr.io",
+        "*.pkg.dev",
+        "storage.googleapis.com",
+        "accounts.google.com",
+        "oauth2.googleapis.com",
+        "crates.io",
+        "static.crates.io",
+        "index.crates.io",
+        "registry.npmjs.org",
+        "registry.yarnpkg.com"
+      ]
+    },
+    "filesystem": {
+      "denyRead": [
+        "//**/.env*",
+        "//**/secrets/**",
+        "//**/credentials*",
+        "//**/*.key",
+        "//**/*.pem",
+        "//**/*.tfvars",
+        "//**/*.tfstate*",
+        "//**/.git-credentials",
+        "//**/.netrc",
+        "//**/.npmrc",
+        "//**/id_rsa*",
+        "//**/id_ed25519*",
+        "//**/*kubeconfig*",
+        "//**/*service-account*.json",
+        "//**/*gcp-key*.json",
+        "//**/application_default_credentials.json"
+      ],
+      "denyWrite": [
+        "//**/.env*",
+        "//**/secrets/**",
+        "//**/credentials*",
+        "//**/*.key",
+        "//**/*.pem",
+        "//**/*.tfvars",
+        "//**/*.tfstate*",
+        "//**/.git-credentials",
+        "//**/.netrc",
+        "//**/.npmrc",
+        "//**/id_rsa*",
+        "//**/id_ed25519*",
+        "//**/*kubeconfig*",
+        "//**/*service-account*.json",
+        "//**/*gcp-key*.json",
+        "//**/application_default_credentials.json"
+      ],
+      "allowRead": [
+        "~/.ssh/*.pub",
+        "~/.ssh/id_ed25519",
+        "~/ghq/github.com/**",
+        "~/worktrees/**"
+      ],
+      "allowWrite": [
+        "~/ghq/github.com/**",
+        "~/worktrees/**"
+      ]
+    },
+    "excludedCommands": [
+      "docker *",
+      "aws *",
+      "gcloud *",
+      "gsutil *",
+      "bq *"
+    ],
+    "enableWeakerNetworkIsolation": true
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "availableModels": [
+    "opus",
+    "sonnet",
+    "haiku"
+  ],
   "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.prompt // empty' | grep -qE '^/autofix-pr(\\s|$)' && echo '{\"continue\":false,\"stopReason\":\"/autofix-pr is denied by project policy. Use /nodex-plugin:resolve-review for local PR review handling.\"}' || true"
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "matcher": "",
