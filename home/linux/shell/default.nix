@@ -142,7 +142,6 @@
       [ -f ~/.zsh_history ] && histbk
     '';
     shellAliases = {
-      cat = "bat";
       grep = "rg";
       relogin = "exec $SHELL -l";
       de = "cd ~/Desktop";
