@@ -18,6 +18,7 @@
       };
       gpg = {
         format = "ssh";
+        ssh.allowedSignersFile = "~/.ssh/allowed_signers";
       };
       commit = {
         gpgsign = true;
