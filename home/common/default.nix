@@ -15,6 +15,7 @@ in {
       jq
       just
       claude-code
+      herdr
       glow
       codegraph
     ];

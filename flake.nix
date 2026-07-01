@@ -17,6 +17,11 @@
       url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    herdr = {
+      url = "github:ogulcancelik/herdr";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -25,6 +30,7 @@
     home-manager,
     nix-darwin,
     claude-code,
+    herdr,
   } @ inputs: let
     systems = {
       darwin = "aarch64-darwin";

@@ -8,6 +8,7 @@ in {
   nixpkgs = {
     overlays = [
       inputs.claude-code.overlays.default
+      inputs.herdr.overlays.default
     ];
 
     config = {
