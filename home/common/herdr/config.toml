@@ -21,8 +21,11 @@ new_tab = "prefix+c"
 split_vertical = "prefix+backslash"
 split_horizontal = "prefix+minus"
 
-# コピーモード (tmux: bind Space / bind C-Space copy-mode)
-copy_mode = ["prefix+space", "prefix+ctrl+space"]
+# コピーモード (tmux: bind Space copy-mode)
+# 補足: tmux の bind C-Space copy-mode は herdr では設定不可。
+#   prefix 自体が ctrl+space のため "prefix+ctrl+space" は prefix の2度押し扱いとなり、
+#   diagnostic 警告が出て全キーバインドがデフォルト(ctrl+b)に戻ってしまう。
+copy_mode = "prefix+space"
 
 # 補足: tmux の以下は herdr に対応機能がないため未設定
 #   - リサイズ H/J/K/L (herdr は prefix+r のリサイズモード内で h/j/k/l)
