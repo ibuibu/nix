@@ -22,4 +22,5 @@ in {
   };
 
   xdg.configFile."wezterm/wezterm.lua".source = ./wezterm/wezterm.lua;
+  xdg.configFile."herdr/config.toml".source = ./herdr/config.toml;
 }

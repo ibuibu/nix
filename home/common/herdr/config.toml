@@ -1,0 +1,29 @@
+# herdr configuration
+# tmux と同じキーバインドに揃える設定。
+# tmux 側の設定は home/darwin/default.nix / home/linux/tmux/default.nix を参照。
+
+[keys]
+# tmux prefix: C-Space
+prefix = "ctrl+space"
+
+# ペイン移動 (tmux: bind h/j/k/l select-pane -L/-D/-U/-R)
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+
+# 新規ウィンドウ/タブ (tmux: bind c new-window)
+new_tab = "prefix+c"
+
+# ペイン分割
+# tmux: bind \ split-window -h → 左右分割 = herdr split_vertical(右方向へ分割)
+# tmux: bind - split-window -v → 上下分割 = herdr split_horizontal(下方向へ分割)
+split_vertical = "prefix+backslash"
+split_horizontal = "prefix+minus"
+
+# コピーモード (tmux: bind Space / bind C-Space copy-mode)
+copy_mode = ["prefix+space", "prefix+ctrl+space"]
+
+# 補足: tmux の以下は herdr に対応機能がないため未設定
+#   - リサイズ H/J/K/L (herdr は prefix+r のリサイズモード内で h/j/k/l)
+#   - synchronize-panes (bind e / E)
