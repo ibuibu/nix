@@ -197,13 +197,13 @@
         # Git branch checkout with fzf
         function gc() {
           branches=$(git branch --all --sort=-authordate --format="%(refname:short)%09%(authordate:relative)%09%(authorname)" | grep -v HEAD | grep -v origin)
-          branch=$(echo "$branches" | column -ts "$(printf '\t')" | fzf --tmux)
+          branch=$(echo "$branches" | column -ts "$(printf '\t')" | fzf)
           git checkout $(echo "$branch" | awk '{print $1}' )
         }
 
         # ghq select with fzf
         function gs() {
-          p=$(ghq list | cut -d "/" -f 2,3 | sort | fzf --tmux)
+          p=$(ghq list | cut -d "/" -f 2,3 | sort | fzf)
           if [ -n "$p" ]; then
             cd $(ghq root)/github.com/$p
           fi
@@ -211,7 +211,7 @@
 
         # gwq select with fzf
         function ws() {
-          local selected=$(gwq list --json | jq -r '.[] | "\(.branch)\t\(.path)"' | fzf --tmux --with-nth=1 --delimiter='\t')
+          local selected=$(gwq list --json | jq -r '.[] | "\(.branch)\t\(.path)"' | fzf --with-nth=1 --delimiter='\t')
           if [ -n "$selected" ]; then
             cd "$(echo "$selected" | cut -f2)"
           fi
@@ -219,7 +219,7 @@
 
         # ghq + gho
         function gr() {
-          pushd $(ghq root)/github.com/$(ghq list | cut -d "/" -f 2,3 | sort | fzf --tmux)
+          pushd $(ghq root)/github.com/$(ghq list | cut -d "/" -f 2,3 | sort | fzf)
           gho
           popd
         }
@@ -328,7 +328,7 @@
       num=$(gh pr list --state "$state" --limit 100 \
         --json number,title,author,state,headRefName \
         --template '{{range .}}{{printf "#%v\t%s\t[%s]\t%s\t(%s)\n" .number .title .state .author.login .headRefName}}{{end}}' \
-        | fzf --tmux --prompt="PR($state)> " | awk '{print $1}' | tr -d '#') || return
+        | fzf --prompt="PR($state)> " | awk '{print $1}' | tr -d '#') || return
       [ -z "$num" ] && return
       if [[ -n "$WSL_DISTRO_NAME" ]] || grep -qi microsoft /proc/version 2>/dev/null; then
         url=$(gh pr view "$num" --json url -q .url) && powershell.exe start "$url"
