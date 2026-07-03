@@ -20,6 +20,7 @@
 
 - コミットメッセージはConventional Commits形式（`feat:`, `fix:`, `docs:`, `refactor:`, `chore:` 等）で、日本語で書く。
 - コミットメッセージには**変更の中身そのもの**を書く。「レビュー指摘を反映」「軽微な2件を解消」「指摘事項を修正」など、作業の経緯や件数だけのメッセージは禁止。何を修正したか具体的に書く（例: `fix: ユーザー名のバリデーションでnullを許容するように修正`）。
+- PR を作成するときは、リポジトリの**デフォルトブランチ**から新しいブランチを切る。デフォルトが `main` とは限らず `staging` などのこともあるため、`gh repo view --json defaultBranchRef` 等で確認してから分岐する。
 - カレントディレクトリが既にリポジトリ内なら `git -C` は使わない。`git -C` を付けると settings local の allowed コマンド（プレフィックスマッチ）に合致しなくなるため。
 - `git push` の前に、Rustコードは `cargo fmt`、TypeScriptコードは `npm run lint:fix`（または相当するnpm script）を実行する。
 - 開発中のコード修正に伴いPRのdescriptionが実態と合わなくなった場合は、descriptionも修正する。
