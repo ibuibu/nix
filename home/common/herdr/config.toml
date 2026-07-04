@@ -30,3 +30,12 @@ copy_mode = "prefix+space"
 # 補足: tmux の以下は herdr に対応機能がないため未設定
 #   - リサイズ H/J/K/L (herdr は prefix+r のリサイズモード内で h/j/k/l)
 #   - synchronize-panes (bind e / E)
+
+# カスタムコマンド
+# type = "pane": 一時ペインでコマンドを開き、終了時に自動で閉じる。
+#   タブを増やさず Agent ペインの上から lazygit 等を使える。
+[[keys.command]]
+key = "prefix+alt+g"
+type = "pane"
+command = "lazygit"
+description = "run lazygit"
