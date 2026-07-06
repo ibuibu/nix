@@ -1,10 +1,10 @@
 ---
-description: gwqでworktreeを切り、.envとsettings.local.jsonをコピーし、plan-xxx.mdを配置して別ターミナルで作業開始できる状態を作る
+description: gwqでworktreeを切り、settings.local.jsonをコピー（.envはユーザーが手動コピー）し、plan-xxx.mdを配置して別ターミナルで作業開始できる状態を作る
 ---
 
 # worktree-start
 
-`gwq add -b` で新規ブランチ付きworktreeを作り、現在のrepoから `.env` と `.claude/settings.local.json` をコピーし、作業計画を `plan-xxx.md` として配置する。別ターミナルでworktreeに `cd` すればすぐ作業開始できる状態にする。
+`gwq add -b` で新規ブランチ付きworktreeを作り、現在のrepoから `.claude/settings.local.json` をコピーし、作業計画を `plan-xxx.md` として配置する。`.env` は permission の deny ルール（`Write(//**/.env*)`）で Claude がコピーできないため、コピー用コマンドを案内してユーザーが手動実行する。別ターミナルでworktreeに `cd` すればすぐ作業開始できる状態にする。
 
 ## 使うタイミング
 
@@ -55,9 +55,6 @@ gwq add -b <prefix>/<xxx>
 # worktreeパスを取得
 WT_PATH=$(gwq get <prefix>/<xxx>)
 
-# .env があればコピー
-[ -f .env ] && cp .env "$WT_PATH/"
-
 # .claude/settings.local.json があればコピー
 [ -f .claude/settings.local.json ] && mkdir -p "$WT_PATH/.claude" && cp .claude/settings.local.json "$WT_PATH/.claude/"
 
@@ -65,9 +62,16 @@ WT_PATH=$(gwq get <prefix>/<xxx>)
 # (Writeツールで $WT_PATH/plan-<xxx>.md に書き出す)
 ```
 
+`.env` は permission の deny ルールで Claude がコピーできない。**Claude はコピーせず**、完了報告で以下のコマンドをユーザーに案内し、ユーザーが `!` プレフィックス等で手動実行する：
+
+```bash
+[ -f .env ] && cp .env "$WT_PATH/"
+```
+
 **重要**:
 - ファイルは **コピー（cp）** であって **移動（mv）** ではない
-- `.env` や `.claude/settings.local.json` がなければスキップ（エラーにしない）
+- `.env` は deny ルール（`Write(//**/.env*)`）で弾かれるため、Claude が cp しようとせずユーザーに手動実行を案内する
+- `.claude/settings.local.json` がなければスキップ（エラーにしない）
 - `gwq get` は patternが一意にマッチしないとfuzzy finderが起動するので、完全なブランチ名を渡す
 
 ### 6. 完了報告
@@ -75,8 +79,9 @@ WT_PATH=$(gwq get <prefix>/<xxx>)
 以下を報告して終了：
 
 - worktreeの絶対パス
-- コピー結果（`.env`, `.claude/settings.local.json` をコピーしたか、なかったか）
+- コピー結果（`.claude/settings.local.json` をコピーしたか、なかったか）
 - 配置した plan ファイルのパス
+- `.env` が現在のrepoに存在する場合、手動コピー用コマンド（`cp .env "<WT_PATH>/"`）を案内する。`<WT_PATH>` は実際の絶対パスに展開して提示する
 
 **cdはしない**。ユーザーは別ターミナルで `cd <path>` して作業を開始する。
 
