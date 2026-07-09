@@ -22,6 +22,11 @@
       url = "github:ogulcancelik/herdr";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hunk = {
+      url = "github:modem-dev/hunk";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -31,6 +36,7 @@
     nix-darwin,
     claude-code,
     herdr,
+    hunk,
   } @ inputs: let
     systems = {
       darwin = "aarch64-darwin";

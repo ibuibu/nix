@@ -1,5 +1,10 @@
-{pkgs, ...}: let
+{
+  pkgs,
+  inputs,
+  ...
+}: let
   codegraph = pkgs.callPackage ./pkgs/codegraph.nix {};
+  hunk = inputs.hunk.packages.${pkgs.system}.default;
 in {
   home = {
     enableNixpkgsReleaseCheck = false;
@@ -18,6 +23,7 @@ in {
       herdr
       glow
       codegraph
+      hunk
     ];
   };
 
