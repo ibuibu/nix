@@ -68,3 +68,14 @@ EOF
 
 - ユーザーにクローズドクエスチョンで尋ねるときは、AskUserQuestion を使って聞く。
 - AskUserQuestion の直前にテキストを出力する場合、末尾に空行を3行入れる（UIの表示バグで直前の最後の行が隠れるため）。
+
+## hunk（ターミナル差分ビューア）
+
+hunk はレビュー特化のターミナル差分ビューア。ユーザーが別ターミナルで `hunk diff` / `hunk show` を開いてレビューし、AI とインライン note（コメント）でやりとりできる。
+
+- TUI はユーザー用。`hunk diff` / `hunk show` を**AI が直接実行しない**。操作は `hunk session *` 経由で行う。
+- **note を読むだけ**なら1コマンド: `hunk session comment list --repo . --type all`
+  - 「hunk の note みて」と言われたらこれを実行する。セッションが無ければ「別ターミナルで `hunk diff` を開いて」と促す。
+- **note を書く/操作もする**なら skill を読み込む: `hunk skill path` が返すパスの SKILL.md を読む（パスは node バージョンに依存するので**ハードコードせず毎回コマンドで取得**する）。
+  - 主なコマンド: `hunk session review --repo . --json`（構造把握）、`hunk session navigate ...`（画面移動）、`hunk session comment add ...`（1件追加）、`hunk session comment apply --stdin`（複数一括）。
+- note はライブセッションのメモリ上のみ。`hunk diff` を閉じると消える（永続化されない）。残したいなら `hunk diff --agent-context notes.json` で JSON サイドカーを使う。
