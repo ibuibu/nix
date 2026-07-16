@@ -79,3 +79,9 @@ hunk はレビュー特化のターミナル差分ビューア。ユーザーが
 - **note を書く/操作もする**なら skill を読み込む: `hunk skill path` が返すパスの SKILL.md を読む（パスは node バージョンに依存するので**ハードコードせず毎回コマンドで取得**する）。
   - 主なコマンド: `hunk session review --repo . --json`（構造把握）、`hunk session navigate ...`（画面移動）、`hunk session comment add ...`（1件追加）、`hunk session comment apply --stdin`（複数一括）。
 - note はライブセッションのメモリ上のみ。`hunk diff` を閉じると消える（永続化されない）。残したいなら `hunk diff --agent-context notes.json` で JSON サイドカーを使う。
+
+## 文章表現
+
+- PRコメント・ドキュメント・レポートなど、人に読ませる文章では、直訳調・比喩的な独自表現を避け、素直で平易な日本語を使う。
+  - 悪い例:「静かな退行」「漏洩固定テスト」「兄弟（sibling）」
+  - 良い例:「気づきにくいバグ」「〜を確認するテスト」「device_config（具体名で書く）」
