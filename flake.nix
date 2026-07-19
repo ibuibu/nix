@@ -23,9 +23,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # hunk の nixpkgs は follows させず、hunk 自身がロックした nixpkgs を使う。
+    # nixpkgs unstable (26.11) は x86_64-darwin を drop したが、hunk は
+    # nix-systems/default (x86_64-darwin を含む) で全システムの出力を評価するため、
+    # follows すると hunk のビルド時に x86_64-darwin の評価が走って失敗する。
     hunk = {
       url = "github:modem-dev/hunk";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

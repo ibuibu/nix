@@ -33,11 +33,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783545757,
-        "narHash": "sha256-ujyh71rjKf0frYqn4HDZ7baSp5+BNhYpux5Q/8nITRM=",
+        "lastModified": 1784429929,
+        "narHash": "sha256-zEluI50TgMDmaGh03/fESCTVo0iNsi3rMAS4qG9fRMA=",
         "owner": "sadjow",
         "repo": "claude-code-nix",
-        "rev": "1a4322b6de8b5f99968cb342ac4a1b25d0712698",
+        "rev": "b6ed5740cbb5f7b5ba5802bfc116b073e05cfdbd",
         "type": "github"
       },
       "original": {
@@ -90,11 +90,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1783626205,
-        "narHash": "sha256-eZ+gx+moF24/Utz+16DAu6o/ozrEuoTY3S4LXy7biOw=",
+        "lastModified": 1784425797,
+        "narHash": "sha256-4G0GTjPFgmQko5EDeyiRynRVYRzCLM7tWw9pErPDd20=",
         "owner": "ogulcancelik",
         "repo": "herdr",
-        "rev": "b137c7b5ea551aec2a186fea51a0959461c032d9",
+        "rev": "b580103b956ef9cdf39798947a46ce4e8b78c322",
         "type": "github"
       },
       "original": {
@@ -110,11 +110,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783618078,
-        "narHash": "sha256-F43DGcBoIO8xOZFAfodg3jy0VghB9NGdb6xbTYAIx1A=",
+        "lastModified": 1784407317,
+        "narHash": "sha256-iZrxHToDJWnvt+5LGAtvuQMTy1NZYlNEKbKaVtBJNcc=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "144f4e36d0186195037da9fce80a727108978070",
+        "rev": "39411a8e12a5526d992e65bc7e3dc9a4414d6713",
         "type": "github"
       },
       "original": {
@@ -126,16 +126,14 @@
     "hunk": {
       "inputs": {
         "bun2nix": "bun2nix",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1783426737,
-        "narHash": "sha256-yQFZXU2rFrwR+OJMktg9Zvrn3jnfVcQAuT8fWVNsnCs=",
+        "lastModified": 1784423140,
+        "narHash": "sha256-p/PawHUC/doiblxnNuEok25RFxhWVOHLIVEQ0fMFgfw=",
         "owner": "modem-dev",
         "repo": "hunk",
-        "rev": "059dd13c8bd27fe503ef59652077edf0041034c8",
+        "rev": "94d61e173c1934513b53b178f3b3c2e55ae98aa5",
         "type": "github"
       },
       "original": {
@@ -166,11 +164,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783395956,
-        "narHash": "sha256-AAbexQvDoK+6GFJdhY6kqjA+6ECKRkidgWxkn4gMwAA=",
+        "lastModified": 1784362797,
+        "narHash": "sha256-EP9b9b+OXDxHBPefFwMYCIaLq0fn3UkmrbfzbLUT7kQ=",
         "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "d5bd9cd77aea4c0a8f49e7fd85545671a208ed15",
+        "rev": "b4cccbd4bc299c1f71ae185b79c3cf99aa82805c",
         "type": "github"
       },
       "original": {
@@ -181,15 +179,15 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1783224372,
-        "narHash": "sha256-8i/87eeoqiGE4yOTjwSA3Eh/ziJRQEmd/unYU+K27sk=",
-        "owner": "nixos",
+        "lastModified": 1777954456,
+        "narHash": "sha256-hGdgeU2Nk87RAuZyYjyDjFL6LK7dAZN5RE9+hrDTkDU=",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d407951447dcd00442e97087bf374aad70c04cea",
+        "rev": "549bd84d6279f9852cae6225e372cc67fb91a4c1",
         "type": "github"
       },
       "original": {
-        "owner": "nixos",
+        "owner": "NixOS",
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
@@ -210,6 +208,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1784356753,
+        "narHash": "sha256-12KrbMiWLcf8m7pCvAtZh1ZrgF85ZXDXvfR/fWTKy84=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "61b7c44c4073f0b827768aff0049561b5110ea5a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "claude-code": "claude-code",
@@ -217,7 +231,7 @@
         "home-manager": "home-manager",
         "hunk": "hunk",
         "nix-darwin": "nix-darwin",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs_2"
       }
     },
     "rust-overlay": {
