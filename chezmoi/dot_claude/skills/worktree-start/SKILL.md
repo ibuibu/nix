@@ -62,10 +62,15 @@ WT_PATH=$(gwq get <prefix>/<xxx>)
 # (Writeツールで $WT_PATH/plan-<xxx>.md に書き出す)
 ```
 
-`.env` は permission の deny ルールで Claude がコピーできない。**Claude はコピーせず**、完了報告で以下のコマンドをユーザーに案内し、ユーザーが `!` プレフィックス等で手動実行する：
+`.env` は permission の deny ルールで Claude がコピーできない。**Claude はコピーせず**、完了報告で cp コマンドをユーザーに案内し、ユーザーが手動実行する。
 
-```bash
-[ -f .env ] && cp .env "$WT_PATH/"
+repo 内の `.env` ファイルを探し（ルートだけでなく `backend/.env` `frontend/.env` などサブディレクトリも含む）、**1ファイルにつき1行**の cp コマンドを提示する。案内するコマンドには **`!` プレフィックスを付けない**（プレーンな `cp` として表示する）。`<WT_PATH>` は実際の絶対パスに展開する。
+
+例:
+
+```
+cp backend/.env "<WT_PATH>/backend/.env"
+cp frontend/.env "<WT_PATH>/frontend/.env"
 ```
 
 **重要**:
@@ -81,7 +86,7 @@ WT_PATH=$(gwq get <prefix>/<xxx>)
 - worktreeの絶対パス
 - コピー結果（`.claude/settings.local.json` をコピーしたか、なかったか）
 - 配置した plan ファイルのパス
-- `.env` が現在のrepoに存在する場合、手動コピー用コマンド（`cp .env "<WT_PATH>/"`）を案内する。`<WT_PATH>` は実際の絶対パスに展開して提示する
+- `.env` が現在のrepoに存在する場合、手動コピー用コマンドを案内する。見つかった `.env` ファイルごとに1行ずつ、`!` プレフィックスなしのプレーンな `cp` コマンドを提示する（`<WT_PATH>` は実際の絶対パスに展開する）
 
 **cdはしない**。ユーザーは別ターミナルで `cd <path>` して作業を開始する。
 
