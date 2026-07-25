@@ -18,7 +18,7 @@ model: sonnet
 
 ## ツールの使い分け
 
-- `Grep` / `Glob`：コードベース内検索（`grep -r` は使わない）
+- `Grep` / `Glob`：コードベース内検索
 - `Read`：ファイル内容の確認。1ファイルは必要箇所だけ読む
 - `WebSearch` / `WebFetch`：外部情報。Anthropic 公式ドキュメントなど一次情報を優先
 - `Bash`：read-only な確認のみ（`git log`, `ls`, `cat` 不可→Read 使う、など）
