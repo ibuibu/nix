@@ -1,6 +1,7 @@
 [tools]
 go = "latest"
 node = "22"
+pnpm = "latest"
 python = "3.14"
 uv = "latest"
 "vfox:mise-plugins/vfox-terraform" = "1.9.0"
