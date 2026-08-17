@@ -21,6 +21,7 @@ in {
       gh
       ghq
       lazygit
+      git-crypt
       ripgrep
       bat
       eza
