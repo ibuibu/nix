@@ -99,13 +99,11 @@ gh api graphql -f query='
 
 ### 反映済みのスレッドの処理
 
-反映済みと判断したスレッドは、まとめてユーザーに一覧提示して確認を取る（AskUserQuestion）。承認されたものだけ、次を実行する。
+反映済みと判断したスレッドは、まとめてユーザーに一覧提示して確認を取る（AskUserQuestion）。承認されたものだけresolveする。
+
+お礼や確認完了のリプライは付けず、resolveだけを行う。
 
 ```bash
-# リプライ（反映を確認したことを伝える。ですます調）
-gh api graphql -f query='mutation { addPullRequestReviewThreadReply(input: { pullRequestReviewThreadId: "THREAD_ID", body: "対応を確認しました。ありがとうございます。" }) { comment { id } } }'
-
-# resolve
 gh api graphql -f query='mutation { resolveReviewThread(input: { threadId: "THREAD_ID" }) { thread { isResolved } } }'
 ```
 
