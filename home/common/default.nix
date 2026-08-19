@@ -30,6 +30,7 @@ in {
       jq
       just
       claude-code
+      codex
       herdr
       glow
       codegraph
