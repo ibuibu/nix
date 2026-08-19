@@ -1,0 +1,9 @@
+model = "gpt-5.6-sol"
+model_reasoning_effort = "medium"
+approve_for_me = true
+
+[projects."/home/ibuib/ghq/github.com/ibuibu/nix"]
+trust_level = "trusted"
+
+[projects."/home/ibuib/ghq/github.com/nodecross/nodex-platform"]
+trust_level = "trusted"
