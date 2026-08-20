@@ -1,9 +1,58 @@
 model = "gpt-5.6-luna"
 model_reasoning_effort = "high"
 approve_for_me = true
+# サンドボックス: ワークスペース内のみ書き込み可(読み取りは全域可能な点に注意)
+sandbox_mode = "workspace-write"
+# 承認: 境界を越える操作は必ず人間に確認(より厳しくするなら "untrusted")
+approval_policy = "on-request"
+# ログインシェル(.zshrc等)を読み込ませない
+allow_login_shell = false
 
 [projects."/home/ibuib/ghq/github.com/ibuibu/nix"]
 trust_level = "trusted"
 
 [projects."/home/ibuib/ghq/github.com/nodecross/nodex-platform"]
 trust_level = "trusted"
+
+[projects."/home/ibuib/ghq/github.com/ibuibu/clew"]
+trust_level = "trusted"
+
+[projects."/tmp/clew-scratch"]
+trust_level = "trusted"
+
+[projects."/home/ibuib/ghq/github.com/nodecross/ibu-workspace"]
+trust_level = "trusted"
+
+[projects."/tmp/autotest"]
+trust_level = "trusted"
+
+# サンドボックス内はネットワークをデフォルト遮断
+[sandbox_workspace_write]
+network_access = false
+# 追加の書き込み可能ディレクトリは増やさない
+writable_roots = []
+# /tmp や $TMPDIR 経由の書き出しも塞ぐ
+exclude_slash_tmp = true
+exclude_tmpdir_env_var = true
+
+# 秘密情報をサブプロセスに渡さない
+[shell_environment_policy]
+# PATH/HOME等の最小セットのみ継承
+inherit = "core"
+# KEY/SECRET/TOKENを含む変数の自動除外(デフォルトの保護)を維持
+ignore_default_excludes = false
+# 追加の明示deny
+exclude = [
+  "AWS_*",
+  "AZURE_*",
+  "GCP_*",
+  "GOOGLE_*",
+  "GITHUB_*",
+  "*_TOKEN",
+  "*_SECRET",
+  "*_KEY",
+  "*PASSWORD*",
+  "DATABASE_URL",
+  "OPENAI_API_KEY",
+  "ANTHROPIC_API_KEY",
+]
