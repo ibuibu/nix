@@ -15,6 +15,11 @@
       ''
     else hunkPkg;
 in {
+  programs.zsh.initContent = ''
+    # 作業中のリポジトリの .git を sandbox の対象にするため、実行時の PWD を使う。
+    alias codex-work='codex --sandbox workspace-write --add-dir "$PWD/.git" --ask-for-approval on-request'
+  '';
+
   home = {
     enableNixpkgsReleaseCheck = false;
     packages = with pkgs; [
