@@ -17,13 +17,7 @@ trust_level = "trusted"
 [projects."/home/ibuib/ghq/github.com/ibuibu/clew"]
 trust_level = "trusted"
 
-[projects."/tmp/clew-scratch"]
-trust_level = "trusted"
-
 [projects."/home/ibuib/ghq/github.com/nodecross/ibu-workspace"]
-trust_level = "trusted"
-
-[projects."/tmp/autotest"]
 trust_level = "trusted"
 
 # サンドボックス内はネットワークをデフォルト遮断
