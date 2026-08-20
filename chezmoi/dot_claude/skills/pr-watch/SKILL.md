@@ -47,13 +47,13 @@ CI=$?
 echo "ci_exit=$CI" >> "$LOG"
 [ $CI -ne 0 ] && exit $CI
 
-Q='{repository(owner:"<OWNER>",name:"<REPO>"){pullRequest(number:<NUMBER>){reviewThreads(first:100){nodes{isResolved}}}}}'
+Q='{repository(owner:"<OWNER>",name:"<REPO>"){pullRequest(number:<NUMBER>){reviewThreads(first:100){nodes{isResolved comments(first:1){nodes{author{login}}}}}}}}'
 for _ in $(seq 1 30); do
-  C=$(gh api graphql -f query="$Q" --jq '[.data.repository.pullRequest.reviewThreads.nodes[]|select(.isResolved==false)]|length')
-  if [ "${C:-0}" -gt 0 ]; then echo "unresolved=$C" >> "$LOG"; exit 0; fi
+  A=$(gh api graphql -f query="$Q" --jq '[.data.repository.pullRequest.reviewThreads.nodes[]|select(.isResolved==false)|.comments.nodes[0].author.login]|join(",")')
+  if [ -n "$A" ]; then echo "unresolved_authors=$A" >> "$LOG"; exit 0; fi
   sleep 30
 done
-echo "unresolved=0 timeout" >> "$LOG"
+echo "unresolved_authors= timeout" >> "$LOG"
 ```
 
 レビュー待ちの上限は15分。botが何も言わない場合はタイムアウトで抜ける。
@@ -64,7 +64,8 @@ echo "unresolved=0 timeout" >> "$LOG"
 
 - `ci_exit` が 0 以外 → `gh run view --log-failed` で失敗原因を調査し、ユーザーに報告する。修正は勝手に始めず相談する
 - `gh pr checks` がチェック未設定で失敗した場合 → CIなしと判断してレビュー待ちへ進む
-- `ci_exit=0` かつ `unresolved` が1件以上 → ステップ5へ
+- `ci_exit=0` かつ `unresolved_authors` に `claude` を含む login がある（大文字小文字は区別しない。`claude[bot]` / `claude-code[bot]` などを想定）→ ユーザーに確認せずステップ5→6を続けて実行する
+- `ci_exit=0` かつ `unresolved_authors` が claude 以外だけ → ステップ5の統合報告を出したあと、resolve-reviews を起動してよいかユーザーに確認する
 - `ci_exit=0` かつタイムアウト → ローカルレビュー結果だけ報告する
 
 ## 5. 統合報告
