@@ -194,6 +194,17 @@
           }
         ]
       }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "IN=$(cat); printf %s \"$IN\" | jq -r '.tool_input.command // \"\"' | grep -qE 'gh pr create' && printf %s \"$IN\" | grep -q '/pull/' && jq -nc '{hookSpecificOutput:{hookEventName:\"PostToolUse\",additionalContext:\"PRを作成した。pr-watch スキルを起動し、CI結果の監視とローカルレビュー（codex review / adversarial-review / reviewer 2体）をバックグラウンドで開始すること。\"}}' || true"
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
