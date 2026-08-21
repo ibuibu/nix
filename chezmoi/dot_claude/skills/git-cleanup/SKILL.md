@@ -29,7 +29,12 @@ git branch --merged "$DEFAULT"
 
 # worktree一覧
 gwq list --json
+
+# worktreeを持つブランチ（削除コマンドの振り分けに使う）
+git worktree list --porcelain | grep '^branch ' | sed 's@^branch refs/heads/@@'
 ```
+
+ブランチ数に対して worktree はごく少数（数百本のブランチに対して10本程度）なのが通常。全ブランチを `gwq` で消せる前提に立たない。
 
 `gh repo view` が失敗したら（未認証・remoteなし等）そこで止めてユーザーに報告する。`main` へのフォールバックはしない。デフォルトが `staging` のリポジトリで誤判定するため。
 
@@ -94,9 +99,19 @@ gwq remove -b feat/auth
 gwq remove -b --force-delete-branch feat/api
 ```
 
-worktree があるブランチは `git branch -d` が「チェックアウト中」で失敗する。worktree とブランチを両方消すなら `gwq remove -b <branch>` を使い、`git branch` コマンドは併記しない。squash マージ済みなら `--force-delete-branch` も足す（`-b` だけでは未マージ扱いで拒否される）。
+削除コマンドは worktree の有無で振り分ける。どちらか一方に寄せることはできない。
 
-worktree を残してブランチだけ消すことはできないので、その組み合わせは提示しない。
+| worktree | 使うコマンド |
+| --- | --- |
+| ある | `gwq rm -b <branch>`（worktreeとブランチを同時に消す） |
+| ない | `git branch -d` / `-D` |
+
+- worktree があるブランチに `git branch -d` を使うと「チェックアウト中」で失敗する
+- worktree が無いブランチに `gwq rm` を使うと `no worktree found matching pattern` で失敗する
+- `gwq rm -b` は squash マージ済みブランチを未マージ扱いで拒否するので `--force-delete-branch` を足す
+- worktree を残してブランチだけ消すことはできないので、その組み合わせは提示しない
+
+自信が無いときは `gwq rm --dry-run -b <branch>` で削除対象を確認する。
 
 確認はこの2ゲートだけ。`-D` が必要だからといって追加の確認を挟まない。
 
@@ -127,3 +142,4 @@ worktree を残してブランチだけ消すことはできないので、そ�
 - `gwq remove` は dirty なworktreeを拒否する。`-f` は付けない（ゲート1で除外済みのため、ここで force する理由がない）
 - リモートブランチは操作しない。ローカルの掃除だけ
 - `origin` 以外の remote にマージされたケースは判定できない。該当時は要判断に置く
+- `pr-2093` `pr2515` のようなPR番号だけの名前は `gh pr checkout` の残骸で、`gh pr list --head` では一致しない。他人のPRのチェックアウトなので自分の作業ではないが、自動削除はせず要判断にまとめて出す
