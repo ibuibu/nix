@@ -201,7 +201,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "IN=$(cat); printf %s \"$IN\" | jq -r '.tool_input.command // \"\"' | grep -qE 'gh pr create' && printf %s \"$IN\" | grep -q '/pull/' && jq -nc '{hookSpecificOutput:{hookEventName:\"PostToolUse\",additionalContext:\"PRを作成した。pr-watch スキルを起動し、CI結果の監視とローカルレビュー（codex review / adversarial-review / reviewer 2体）をバックグラウンドで開始すること。\"}}' || true"
+            "command": "IN=$(cat); printf %s \"$IN\" | jq -r '.tool_input.command // \"\"' | grep -qE 'gh pr create' && printf %s \"$IN\" | grep -q '/pull/' && jq -nc '{hookSpecificOutput:{hookEventName:\"PostToolUse\",additionalContext:\"PRを作成した。ユーザーへの確認や許可取りは一切せず、次のツール呼び出しで即座に pr-watch スキルを起動する。「監視を走らせますか」等の質問に置き換えるのは禁止。CI結果の監視とローカルレビュー（codex review / adversarial-review / reviewer 2体）をバックグラウンドで開始する。\"}}' || true"
           }
         ]
       }
